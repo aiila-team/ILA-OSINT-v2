@@ -1,0 +1,60 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (Uncomment if you decide to vendor dependencies)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Env / Secrets / Configuration files
+.env
+.env.*
+*.local
+config.yaml
+configs/*.yaml
+!configs/config.example.yaml # Keep template config examples
+
+# Project specific scraped/temp data
+scraped_articles.json
+*.log
+
+# Local build outputs and transient folders
+/collector
+bin/
+build/
+dist/
+coverage/
+tmp/
+temp/
+logs/
+cache/
+
+# IDEs / Editor configurations
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+Thumbs.db
+db.webmanifest
+.DS_Store
