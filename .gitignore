@@ -1,0 +1,159 @@
+# General files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.seed
+*.pid
+*.pickle
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+node_modules/
+coverage/
+.vagrant/
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+**/dist/
+**/build/
+**/.cache/
+**/.parcel-cache/
+**/.next/
+**/.nuxt/
+**/out/
+**/.rpt2_cache/
+**/.rts2_cache_cjs/
+**/.rts2_cache_es/
+**/.rts2_cache_umd/
+**/coverage/
+**/.nyc_output/
+**/vite/**
+**/tsconfig.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.python-version
+.python-version-* 
+venv/
+venv*/
+.venv/
+.env/
+.env.*
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+.ipynb_checkpoints/
+**/build/
+**/dist/
+**/eggs/
+**/*.egg-info/
+**/*.egg
+**/pip-wheel-metadata/
+**/*.manifest
+**/*.spec
+
+# Poetry
+poetry.lock
+
+# Pipenv
+Pipfile.lock
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Docker
+*.id
+docker-compose.override.yml
+.envrc
+
+# Go
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/vendor/
+**/vendor/
+**/Godeps/
+*.prof
+*.coverprofile
+*.mod
+**/pkg/mod/
+**/bin/
+
+# IDE/editor
+*.orig
+*.rej
+*.patch
+*.swo
+*.swp
+*.kate-swp
+*.idea/
+*.vscode/
+*.history/
+
+# System files
+ehthumbs.db
+Icon?
+desktop.ini
+$RECYCLE.BIN/
+
+# Kubernetes / Helm
+*.kubeconfig
+*.yaml.tmp
+
+# Generated docs
+**/docs/_build/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Logs and runtime files
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.pid
+*.seed
+
+# Local config
+local_settings.py
+settings_local.py
+
+# JetBrains
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+""
