@@ -1,0 +1,20 @@
+FROM nvcr.io/nvidia/tritonserver:23.10-py3
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pip \
+    python3-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PyTorch running on CPU
+RUN pip3 install --no-cache-dir torch==2.1.2 --index-url https://download.pytorch.org/whl/cpu
+
+# Install the rest of the python dependencies from default PyPI
+RUN pip3 install --no-cache-dir \
+    transformers==4.38.2 \
+    sentencepiece \
+    sacremoses \
+    numpy \
+    IndicTransToolkit
+
