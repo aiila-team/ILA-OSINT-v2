@@ -24,7 +24,7 @@ def certin_to_event_payload(advisory):
 
         "source_id": "cert-in",
 
-        "content": advisory["title"],
+        "content": advisory.get("content") or advisory.get("title", ""),
 
         "published_at": _normalize_certin_date(advisory["date"]),
 

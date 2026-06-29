@@ -130,3 +130,59 @@ def test_raw_event_factory_normalizes_dictionary_of_lists_entities():
     assert ("hashtags", "#tag1") in entity_dict
     assert ("hashtags", "#tag2") in entity_dict
     assert not any(e.type == "cves" for e in event.entities)
+
+
+def test_bhuvan_feature_payload_builds_expected_feature():
+    import importlib.util
+    from pathlib import Path
+
+    repo_root = Path(__file__).resolve().parents[1]
+    payload_path = repo_root / "data-sources" / "defence" / "bhuvan" / "payload_extractor.py"
+    spec = importlib.util.spec_from_file_location("bhuvan_payload_extractor", str(payload_path))
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    feature = {
+        "type": "Feature",
+        "id": "test-123",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [88.0, 27.0],
+        },
+        "properties": {
+            "name": "TestFeature",
+            "type": "road",
+            "status": "active",
+        },
+    }
+    layer = {
+        "layer_id": "sdv:test_layer",
+        "title": "sdv:test_layer",
+        "abstract": "Test layer for Bhuvan feature extraction.",
+        "layer_type": "sdv",
+        "slug": "sdv:test_layer",
+        "parsed_state": "SD",
+        "parsed_district": "TestDistrict",
+        "parsed_layer": "test_layer",
+        "srs": ["EPSG:4326"],
+        "latlon_bbox": {
+            "minx": "87.0",
+            "miny": "26.0",
+            "maxx": "89.0",
+            "maxy": "28.0",
+        },
+        "bounding_boxes": [],
+    }
+    source_url = "https://example.com/wms?SERVICE=WMS&REQUEST=GetFeatureInfo"
+
+    payload = module.build_bhuvan_feature_payload(feature, layer, source_url)
+
+    assert payload["event_type"] == "geospatial_feature"
+    assert payload["source_type"] == "geospatial"
+    assert payload["source_id"] == "test-123"
+    assert payload["locations"][0]["lat"] == 27.0
+    assert payload["locations"][0]["lon"] == 88.0
+    assert payload["metadata"]["feature_geometry_type"] == "Point"
+    assert payload["metadata"]["feature_source_url"] == source_url
+    assert "infrastructure" in payload["tags"]

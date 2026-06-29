@@ -61,16 +61,16 @@ async def publish_test_events():
 
     try:
         # Publish news event
-        print("Publishing test Hindi News event to news.raw...")
-        await producer.send_and_wait("news.raw", news_payload)
+        print("Publishing test Hindi News event to raw-events.news...")
+        await producer.send_and_wait("raw-events.news", news_payload)
         
         # Publish youtube event
-        print("Publishing test YouTube event to youtube.raw...")
-        await producer.send_and_wait("youtube.raw", youtube_payload)
+        print("Publishing test YouTube event to raw-events.youtube...")
+        await producer.send_and_wait("raw-events.youtube", youtube_payload)
         
         # Publish telegram event
-        print("Publishing test Telegram event to telegram.raw...")
-        await producer.send_and_wait("telegram.raw", telegram_payload)
+        print("Publishing test Telegram event to raw-events.telegram...")
+        await producer.send_and_wait("raw-events.telegram", telegram_payload)
 
         print("\nAll test events published successfully!")
         

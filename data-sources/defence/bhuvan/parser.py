@@ -1,7 +1,11 @@
 """Parser for Bhuvan WMS/WFS responses."""
 
+import re
 import xml.etree.ElementTree as ET
 from typing import Any
+
+
+_LAYER_SLUG_RE = re.compile(r"^(?P<state>[A-Za-z]{2,3})_(?P<district>[^_]+)_(?P<layer>.+)$")
 
 
 def parse_bhuvan_response(raw_data: Any) -> list[dict[str, Any]]:
@@ -66,18 +70,83 @@ def parse_bhuvan_response(raw_data: Any) -> list[dict[str, Any]]:
             else ""
         )
 
+        slug_text = title or layer_id
+        slug = ""
+        parsed_state = ""
+        parsed_district = ""
+        parsed_layer = ""
+        if slug_text:
+            slug_match = _LAYER_SLUG_RE.match(slug_text)
+            if slug_match:
+                slug = slug_text
+                parsed_state = slug_match.group("state").upper()
+                parsed_district = slug_match.group("district")
+                parsed_layer = slug_match.group("layer")
+
+        queryable = layer.get("queryable") == "1"
+        styles = [
+            style.findtext("Name", "").strip()
+            for style in layer.findall("Style")
+            if style.findtext("Name")
+        ]
+
+        srs = [
+            s.text.strip()
+            for s in layer.findall("SRS")
+            if s.text and s.text.strip()
+        ]
+
+        latlon_bbox = {}
+        latlon_tag = layer.find("LatLonBoundingBox")
+        if latlon_tag is not None:
+            latlon_bbox = {
+                "minx": latlon_tag.get("minx"),
+                "miny": latlon_tag.get("miny"),
+                "maxx": latlon_tag.get("maxx"),
+                "maxy": latlon_tag.get("maxy"),
+            }
+
+        bounding_boxes = []
+        for bbox_tag in layer.findall("BoundingBox"):
+            bbox = {
+                "srs": bbox_tag.get("SRS") or bbox_tag.get("CRS"),
+                "minx": bbox_tag.get("minx"),
+                "miny": bbox_tag.get("miny"),
+                "maxx": bbox_tag.get("maxx"),
+                "maxy": bbox_tag.get("maxy"),
+            }
+            bounding_boxes.append(bbox)
+
         layers.append(
             {
                 "layer_id": layer_id,
                 "title": title,
                 "abstract": abstract,
                 "layer_type": layer_type,
+                "slug": slug,
+                "parsed_state": parsed_state,
+                "parsed_district": parsed_district,
+                "parsed_layer": parsed_layer,
+                "srs": srs,
+                "latlon_bbox": latlon_bbox,
+                "bounding_boxes": bounding_boxes,
+                "queryable": queryable,
+                "styles": styles,
 
                 # Original source metadata
                 "raw": {
                     "name": layer_id,
                     "title": title,
                     "abstract": abstract,
+                    "slug": slug,
+                    "parsed_state": parsed_state,
+                    "parsed_district": parsed_district,
+                    "parsed_layer": parsed_layer,
+                    "srs": srs,
+                    "latlon_bbox": latlon_bbox,
+                    "bounding_boxes": bounding_boxes,
+                    "queryable": queryable,
+                    "styles": styles,
                 },
             }
         )

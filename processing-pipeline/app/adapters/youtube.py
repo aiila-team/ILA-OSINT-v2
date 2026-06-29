@@ -1,121 +1,184 @@
 # app/adapters/youtube.py
+import json
 from datetime import UTC, datetime
+
+import structlog
 
 from app.adapters.base import SourceAdapter
 from app.schemas.raw_event import RawEvent
 
+log = structlog.get_logger()
 
-class YouTubeAdapter(SourceAdapter):
-    """Adapter for YouTube sources normalising payloads to canonical RawEvent."""
+
+class YoutubeAdapter(SourceAdapter):
+    """
+    Normalises payloads from the YouTube collector. Unlike the other
+    adapters in this module, YouTube's envelope carries a fully nested
+    `payload` dict mirroring the raw YouTube Data API comment-thread
+    resource — most of the useful structure (the actual comment author,
+    as opposed to the video's channel, plus pre-extracted entities) lives
+    there rather than at the top level. This adapter prefers the nested
+    payload's fields throughout and falls back to the envelope's
+    top-level fields only when the nested payload is absent or sparse.
+    """
 
     def normalize(self, payload: dict, topic: str) -> RawEvent:
         if not isinstance(payload, dict):
             raise ValueError("Payload must be a dictionary")
 
-        source = payload.get("source") or "youtube"
-        source_id = (
-            payload.get("source_id")
-            or payload.get("video_id")
-            or payload.get("id")
+        nested = self._nested_payload(payload)
+        nested_meta = nested.get("metadata") or {}
+
+        source = nested.get("source") or payload.get("source_type") or "youtube"
+        source_id = self._source_id(payload, nested)
+        content = self._content(payload, nested)
+
+        published_at = self._parse_dt(
+            nested.get("published_at") or payload.get("published_at")
         )
-        if not source_id:
-            raise ValueError(
-                "Missing unique identifier (source_id, video_id, or id) "
-                "in YouTube payload"
-            )
-
-        # Parse timestamps
-        published_at_raw = payload.get("published_at") or payload.get("publishedAt")
-        if published_at_raw:
-            try:
-                published_at = datetime.fromisoformat(
-                    str(published_at_raw).replace("Z", "+00:00")
-                )
-            except ValueError:
-                published_at = datetime.now(UTC)
-        else:
-            published_at = datetime.now(UTC)
-
-        collected_at_raw = payload.get("collected_at") or payload.get("collectedAt")
-        if collected_at_raw:
-            try:
-                collected_at = datetime.fromisoformat(
-                    str(collected_at_raw).replace("Z", "+00:00")
-                )
-            except ValueError:
-                collected_at = datetime.now(UTC)
-        else:
-            collected_at = datetime.now(UTC)
-
-        # Content of YouTube is video description and/or transcript
-        title = payload.get("title") or ""
-        description = payload.get("description") or ""
-        transcript = payload.get("transcript") or ""
-        
-        # Combine title, description, and transcript for downstream processing if they exist
-        content_parts = []
-        if title:
-            content_parts.append(title)
-        if description:
-            content_parts.append(description)
-        if transcript:
-            content_parts.append(transcript)
-        content = "\n\n".join(content_parts)
-
-        author_id = (
-            payload.get("author_id")
-            or payload.get("channel_id")
-            or payload.get("channelId")
+        collected_at = self._parse_dt(
+            nested.get("collected_at")
+            or payload.get("collected_at")
+            or payload.get("ingested_at")
         )
-        if author_id is not None:
-            author_id = str(author_id)
 
-        # Media URLs can include the video link itself and thumbnail URLs
-        media_urls = payload.get("media_urls") or []
-        video_url = payload.get("video_url") or payload.get("url")
-        if video_url:
-            media_urls.append(video_url)
-        thumbnail_url = payload.get("thumbnail_url")
-        if thumbnail_url:
-            media_urls.append(thumbnail_url)
-        
-        # Clean media urls list
-        seen = set()
-        cleaned_media_urls = []
-        for url in media_urls:
-            if url and url not in seen:
-                cleaned_media_urls.append(str(url))
-                seen.add(url)
-
-        language_hint = payload.get("language_hint") or payload.get("language")
-
-        # Collect extra metadata
-        source_metadata = {
-            "channel_title": payload.get("channel_title") or payload.get("channelTitle"),
-            "view_count": payload.get("view_count") or payload.get("viewCount"),
-            "like_count": payload.get("like_count") or payload.get("likeCount"),
-            "comment_count": payload.get("comment_count") or payload.get("commentCount"),
-            "duration": payload.get("duration"),
-            "topic_received": topic,
-        }
-        exclude_keys = [
-            "source", "source_id", "video_id", "id", "content", "title", "description", 
-            "transcript", "published_at", "publishedAt", "collected_at", "collectedAt", 
-            "author_id", "channel_id", "channelId", "media_urls", "video_url", "url", 
-            "thumbnail_url", "language_hint", "language"
-        ]
-        for k, v in payload.items():
-            if k not in exclude_keys:
-                source_metadata[k] = v
+        author_id = self._author_id(nested, nested_meta)
+        media_urls = self._media_urls(payload, nested)
+        source_metadata = self._metadata(payload, topic, nested, nested_meta)
 
         return RawEvent(
             source=str(source),
             source_id=str(source_id),
-            content=content,
+            content=str(content),
             published_at=published_at,
             collected_at=collected_at,
             author_id=author_id,
-            media_urls=cleaned_media_urls,
-            language_hint=str(language_hint) if language_hint else None,
+            media_urls=media_urls,
+            language_hint=nested.get("language_hint") or nested.get("language"),
             source_metadata=source_metadata,
         )
+
+    # ── field extractors ──────────────────────────────────────────────────────
+
+    def _nested_payload(self, payload: dict) -> dict:
+        nested = payload.get("payload")
+        if isinstance(nested, dict):
+            return nested
+        if isinstance(nested, str) and nested.strip():
+            try:
+                parsed = json.loads(nested)
+                return parsed if isinstance(parsed, dict) else {}
+            except (json.JSONDecodeError, TypeError):
+                log.warning("youtube_adapter.nested_json_parse_failed")
+        return {}
+
+    def _source_id(self, payload: dict, nested: dict) -> str:
+        # Prefer the YouTube comment/thread id (e.g. "Ugy3P7...") — the
+        # real stable platform identifier — over our internal event_id.
+        sid = (
+            nested.get("source_id")
+            or payload.get("source_id")
+            or nested.get("video_id")
+            or payload.get("video_id")
+            or nested.get("comment_id")
+            or payload.get("comment_id")
+            or nested.get("id")
+            or payload.get("id")
+            or payload.get("event_id")
+            or payload.get("provenance_id")
+        )
+        if not sid:
+            raise ValueError(
+                "Missing unique identifier (source_id, video_id, comment_id, or event_id) "
+                "in youtube payload"
+            )
+        return str(sid)
+
+    def _content(self, payload: dict, nested: dict) -> str:
+        return str(
+            nested.get("content")
+            or payload.get("content")
+            or nested.get("transcript")
+            or payload.get("transcript")
+            or nested.get("text")
+            or payload.get("text")
+            or nested.get("description")
+            or payload.get("description")
+            or nested.get("title")
+            or payload.get("title")
+            or ""
+        ).strip()
+
+    def _author_id(self, nested: dict, nested_meta: dict) -> str | None:
+        # The video's *channel* (e.g. "NDTV") is distinct from the actual
+        # comment author — prefer the comment author's channel id, since
+        # that's who actually authored this piece of content. The video's
+        # own channel is preserved separately in source_metadata.
+        author_channel_ids = (nested.get("entities") or {}).get("author_channel_ids") or []
+        author = (
+            nested_meta.get("author_channel_id")
+            or (author_channel_ids[0] if author_channel_ids else None)
+            or nested.get("user_id")
+        )
+        return str(author) if author else None
+
+    def _media_urls(self, payload: dict, nested: dict) -> list[str]:
+        urls: list[str] = []
+        media_files = nested.get("media_files") or payload.get("media_urls") or []
+        if isinstance(media_files, list):
+            for item in media_files:
+                if isinstance(item, dict):
+                    url = item.get("url") or item.get("media_url")
+                    if url:
+                        urls.append(str(url))
+                elif item:
+                    urls.append(str(item))
+        return urls
+
+    def _parse_dt(self, value) -> datetime:
+        if not value:
+            return datetime.now(UTC)
+        try:
+            if isinstance(value, datetime):
+                dt = value
+            else:
+                dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=UTC)
+            return dt.astimezone(UTC)
+        except Exception:
+            log.warning("youtube_adapter.invalid_datetime", value=value)
+            return datetime.now(UTC)
+
+    def _metadata(self, payload: dict, topic: str, nested: dict, nested_meta: dict) -> dict:
+        entities = nested.get("entities") or {}
+        source_metadata = {
+            "event_id": payload.get("event_id"),
+            "provenance_id": payload.get("provenance_id"),
+            "url": nested.get("source_url") or payload.get("source_url"),
+            "topic_received": topic,
+            "record_type": nested_meta.get("record_type"),
+            "video_id": nested_meta.get("video_id") or nested.get("video_id"),
+            "video_url": nested_meta.get("video_url"),
+            "channel_id": nested_meta.get("channel_id") or nested.get("user_id"),
+            "channel_name": nested_meta.get("channel_name") or nested.get("user"),
+            "channel_priority": nested.get("channel_priority"),
+            "author_name": nested_meta.get("author_name"),
+            "author_channel_url": nested_meta.get("author_channel_url"),
+            "thread_id": nested_meta.get("thread_id"),
+            "like_count": nested_meta.get("like_count"),
+            "reply_count": nested_meta.get("reply_count"),
+            "can_reply": nested_meta.get("can_reply"),
+            "category": nested.get("category"),
+            "provider": nested.get("provider"),
+            "tags": nested.get("tags") or [],
+            "video_ids": entities.get("video_ids") or [],
+            "channel_ids": entities.get("channel_ids") or [],
+            "author_channel_ids": entities.get("author_channel_ids") or [],
+            "hashtags": entities.get("hashtags") or [],
+            "urls": entities.get("urls") or [],
+            "cves": entities.get("cves") or [],
+            "phone_numbers": entities.get("phone_numbers") or [],
+            "emails": entities.get("emails") or [],
+        }
+        return source_metadata

@@ -1,116 +1,52 @@
 # app/adapters/telegram.py
+import re
 from datetime import UTC, datetime
+
+import structlog
 
 from app.adapters.base import SourceAdapter
 from app.schemas.raw_event import RawEvent
 
+log = structlog.get_logger()
+
+# Matches t.me channel/post links and the "max.ru" mirror links seen in
+# Telegram forward footers, so they can be pulled into metadata as
+# referenced channels rather than left buried in markdown.
+_TELEGRAM_LINK_RE = re.compile(r"https?://(?:t\.me|max\.ru)/[\w/-]+", re.IGNORECASE)
+_MD_LINK_RE = re.compile(r"\[(.*?)\]\([^)]*\)")
+_MD_ASTERISKS_RE = re.compile(r"\*+")
+
 
 class TelegramAdapter(SourceAdapter):
-    """Adapter for Telegram sources normalising payloads to canonical RawEvent."""
+    """
+    Normalises payloads from the Telegram collector. Telegram messages
+    arrive as raw Markdown (bold emphasis, inline channel links / forward
+    footers) with very little structured metadata attached — this
+    adapter extracts referenced channel links into metadata and produces
+    a markdown-stripped plain-text variant for downstream NLP, while
+    preserving the original raw content untouched in `content`.
+    """
 
     def normalize(self, payload: dict, topic: str) -> RawEvent:
         if not isinstance(payload, dict):
             raise ValueError("Payload must be a dictionary")
 
-        source = payload.get("source") or "telegram"
-        
-        # Unique ID for telegram is typically channel_id:message_id
-        msg_id = payload.get("message_id") or payload.get("id")
-        chat_id = payload.get("chat_id") or payload.get("channel_id")
-        
-        if msg_id is None or chat_id is None:
-            # Fallback to source_id if present
-            source_id = payload.get("source_id")
-            if not source_id:
-                raise ValueError(
-                    "Missing unique identifier (message_id and chat_id, or source_id) "
-                    "in Telegram payload"
-                )
-        else:
-            source_id = f"{chat_id}_{msg_id}"
+        source = payload.get("source") or payload.get("source_type") or "telegram"
+        source_id = self._source_id(payload)
+        content = self._content(payload)
 
-        # Parse timestamps
-        published_at_raw = (
-            payload.get("published_at")
-            or payload.get("date")
-            or payload.get("publishedAt")
+        published_at = self._parse_dt(
+            payload.get("published_at") or payload.get("publishedAt")
         )
-        if published_at_raw:
-            try:
-                # Handle Unix timestamp if provided as int/float
-                if isinstance(published_at_raw, (int, float)):
-                    published_at = datetime.fromtimestamp(published_at_raw, tz=UTC)
-                else:
-                    published_at = datetime.fromisoformat(
-                        str(published_at_raw).replace("Z", "+00:00")
-                    )
-            except (ValueError, OSError):
-                published_at = datetime.now(UTC)
-        else:
-            published_at = datetime.now(UTC)
+        collected_at = self._parse_dt(
+            payload.get("collected_at")
+            or payload.get("collectedAt")
+            or payload.get("ingested_at")
+        )
 
-        collected_at_raw = payload.get("collected_at") or payload.get("collectedAt")
-        if collected_at_raw:
-            try:
-                if isinstance(collected_at_raw, (int, float)):
-                    collected_at = datetime.fromtimestamp(collected_at_raw, tz=UTC)
-                else:
-                    collected_at = datetime.fromisoformat(
-                        str(collected_at_raw).replace("Z", "+00:00")
-                    )
-            except (ValueError, OSError):
-                collected_at = datetime.now(UTC)
-        else:
-            collected_at = datetime.now(UTC)
-
-        # Content
-        content = payload.get("content") or payload.get("text") or payload.get("caption") or ""
-        
-        # Author / Sender
-        author_id = payload.get("author_id") or payload.get("sender_id") or payload.get("from_id")
-        if author_id is not None:
-            author_id = str(author_id)
-
-        # Media URLs (photos, videos, documents, voice messages)
-        media_urls = payload.get("media_urls") or []
-        if isinstance(media_urls, str):
-            media_urls = [media_urls]
-        elif not isinstance(media_urls, list):
-            media_urls = []
-        
-        # Single media link fallbacks
-        photo_url = payload.get("photo_url") or payload.get("media_url")
-        if photo_url:
-            media_urls.append(photo_url)
-            
-        # Clean media urls list
-        seen = set()
-        cleaned_media_urls = []
-        for url in media_urls:
-            if url and url not in seen:
-                cleaned_media_urls.append(str(url))
-                seen.add(url)
-
-        language_hint = payload.get("language_hint") or payload.get("language")
-
-        # Collect extra metadata
-        source_metadata = {
-            "chat_title": payload.get("chat_title") or payload.get("channel_name"),
-            "chat_username": payload.get("chat_username") or payload.get("channel_username"),
-            "views": payload.get("views"),
-            "forwards": payload.get("forwards"),
-            "replies": payload.get("replies"),
-            "topic_received": topic,
-        }
-        exclude_keys = [
-            "source", "source_id", "message_id", "id", "chat_id", "channel_id",
-            "content", "text", "caption", "published_at", "date", "publishedAt",
-            "collected_at", "collectedAt", "author_id", "sender_id", "from_id",
-            "media_urls", "photo_url", "media_url", "language_hint", "language"
-        ]
-        for k, v in payload.items():
-            if k not in exclude_keys:
-                source_metadata[k] = v
+        author_id = self._author_id(payload)
+        media_urls = self._media_urls(payload)
+        source_metadata = self._metadata(payload, topic, content)
 
         return RawEvent(
             source=str(source),
@@ -119,7 +55,102 @@ class TelegramAdapter(SourceAdapter):
             published_at=published_at,
             collected_at=collected_at,
             author_id=author_id,
-            media_urls=cleaned_media_urls,
-            language_hint=str(language_hint) if language_hint else None,
+            media_urls=media_urls,
+            language_hint=payload.get("language_hint") or payload.get("language"),
             source_metadata=source_metadata,
         )
+
+    # ── field extractors ──────────────────────────────────────────────────────
+
+    def _source_id(self, payload: dict) -> str:
+        sid = (
+            payload.get("source_id")
+            or payload.get("message_id")
+            or payload.get("id")
+            or payload.get("event_id")
+            or payload.get("provenance_id")
+        )
+        if not sid:
+            raise ValueError(
+                "Missing unique identifier (source_id, message_id, or event_id) "
+                "in telegram payload"
+            )
+        return str(sid)
+
+    def _content(self, payload: dict) -> str:
+        return (payload.get("content") or payload.get("text") or "").strip()
+
+    def _author_id(self, payload: dict) -> str | None:
+        author = (
+            payload.get("author_id")
+            or payload.get("from_id")
+            or payload.get("channel_id")
+            or payload.get("channel")
+        )
+        return str(author) if author else None
+
+    def _media_urls(self, payload: dict) -> list[str]:
+        urls = (
+            payload.get("media_urls")
+            or payload.get("media")
+            or payload.get("photo")
+            or payload.get("video")
+            or []
+        )
+        if isinstance(urls, str):
+            urls = [urls]
+        elif not isinstance(urls, list):
+            urls = []
+        return [str(u) for u in urls if u]
+
+    def _referenced_channels(self, content: str) -> list[str]:
+        return sorted(set(_TELEGRAM_LINK_RE.findall(content or "")))
+
+    def _plain_text(self, content: str) -> str:
+        # Best-effort markdown cleanup for downstream NLP — not a full
+        # markdown parser. Telegram forward footers sometimes contain
+        # malformed/irregular asterisk runs (e.g. "****") that don't form
+        # valid paired bold markers, so rather than trying to match pairs,
+        # links are collapsed to their visible text first and then every
+        # run of asterisks is stripped outright, regardless of pairing.
+        text = _MD_LINK_RE.sub(r"\1", content or "")
+        text = _MD_ASTERISKS_RE.sub("", text)
+        return re.sub(r"\s+", " ", text).strip()
+
+    def _parse_dt(self, value) -> datetime:
+        if not value:
+            return datetime.now(UTC)
+        try:
+            if isinstance(value, datetime):
+                dt = value
+            else:
+                # Telegram timestamps observed as "YYYY-MM-DD HH:MM:SS+00:00"
+                # (space-separated) as well as standard ISO "T"-separated —
+                # fromisoformat accepts both on Python 3.11+.
+                dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=UTC)
+            return dt.astimezone(UTC)
+        except Exception:
+            log.warning("telegram_adapter.invalid_datetime", value=value)
+            return datetime.now(UTC)
+
+    def _metadata(self, payload: dict, topic: str, content: str) -> dict:
+        source_metadata = {
+            "event_id": payload.get("event_id"),
+            "provenance_id": payload.get("provenance_id"),
+            "url": payload.get("source_url"),
+            "topic_received": topic,
+            "referenced_channels": self._referenced_channels(content),
+            "content_plain": self._plain_text(content),
+        }
+        for k, v in payload.items():
+            if k not in [
+                "source", "source_type", "source_id", "event_id", "provenance_id",
+                "content", "text", "source_url", "published_at", "publishedAt",
+                "collected_at", "collectedAt", "ingested_at", "author_id",
+                "from_id", "channel_id", "channel", "media_urls", "media",
+                "photo", "video", "language_hint", "language",
+            ]:
+                source_metadata[k] = v
+        return source_metadata

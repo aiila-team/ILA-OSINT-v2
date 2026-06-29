@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     # ── Kafka ────────────────────────────────────────────────────────────────
     KAFKA_BOOTSTRAP_SERVERS: str = "localhost:9092"
-    KAFKA_INPUT_TOPIC_PATTERN: str = r".*\.raw$"
+    KAFKA_INPUT_TOPIC_PATTERN: str = r"raw-events\..*"
     KAFKA_OUTPUT_TOPIC: str = "enriched-data"
     KAFKA_DLQ_TOPIC: str = "processing.failed"
     KAFKA_CONSUMER_GROUP: str = "processing-pipeline-v1"

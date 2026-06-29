@@ -1,8 +1,11 @@
+import asyncio
 import importlib.util
 import json
 import logging
+import os
 import sys
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve()
 ROOT_DIR = HERE.parents[3]
@@ -15,9 +18,11 @@ logger = logging.getLogger(__name__)
 try:
     from .parser import extract_advisories
     from .payload_extractor import certin_to_event_payload
+    from ..continuous_collector import ContinuousCollector
 except ImportError:
     from parser import extract_advisories
     from payload_extractor import certin_to_event_payload
+    from continuous_collector import ContinuousCollector
 
 from ingestion.kafka_producer import publish_raw_event
 
@@ -33,7 +38,7 @@ def print_certin_payload(payload):
     print("=" * 80)
 
 
-def main():
+async def collect() -> list[dict[str, Any]]:
 
     advisories = extract_advisories()
 
@@ -79,4 +84,19 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    COLLECTION_INTERVAL = int(os.getenv('CERTIN_COLLECTION_INTERVAL', '60'))
+    MAX_RETRIES = int(os.getenv('CERTIN_MAX_RETRIES', '3'))
+    RETRY_DELAY = int(os.getenv('CERTIN_RETRY_DELAY', '5'))
+
+    collector = ContinuousCollector(
+        name='cert-in',
+        collect_fn=collect,
+        interval=COLLECTION_INTERVAL,
+        max_retries=MAX_RETRIES,
+        retry_delay=RETRY_DELAY,
+    )
+
+    try:
+        asyncio.run(collector.run_continuous())
+    except KeyboardInterrupt:
+        print('\nCollection stopped by user.')
