@@ -1,0 +1,354 @@
+// src/components/analyst/EntityCard/EntityCard.module.scss
+// ILA OSINT — Entity Card Styles
+
+@use '../../../styles/variables' as *;
+
+.cardWrap {
+  position: relative;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 24px rgba(0, 163, 199, 0.08);
+  }
+}
+
+.riskStrip {
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.riskStripHigh {
+  background: #fa4d56;
+}
+
+.riskStripMedium {
+  background: #f1c21b;
+  color: #1f1f1f;
+}
+
+.riskStripLow {
+  background: #24a148;
+}
+
+.statusRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+}
+
+.statusBadge {
+  font-family: var(--font-mono) !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.08em !important;
+  padding: 0 0.55rem !important;
+}
+
+.statusNeutral {
+  background: rgba(103, 108, 119, 0.08) !important;
+  color: var(--text-secondary) !important;
+}
+
+.fraudConfirmed {
+  background: rgba(250, 77, 86, 0.14) !important;
+  color: #fa4d56 !important;
+}
+
+.fraudSuspected {
+  background: rgba(255, 131, 137, 0.14) !important;
+  color: #ff8389 !important;
+}
+
+.blacklistFlag {
+  background: rgba(140, 45, 210, 0.14) !important;
+  color: #8c2dd2 !important;
+}
+
+.blacklistMonitored {
+  background: rgba(255, 181, 0, 0.14) !important;
+  color: #ffb500 !important;
+}
+
+.criticalBorder {
+  border-color: rgba(250, 77, 86, 0.35);
+
+  &:hover {
+    border-color: rgba(250, 77, 86, 0.6);
+    box-shadow: 0 4px 24px rgba(250, 77, 86, 0.12);
+  }
+}
+
+.riskStrip {
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.riskStripHigh {
+  background: rgba(250, 77, 86, 0.96);
+}
+
+.riskStripMedium {
+  background: rgba(241, 194, 27, 0.96);
+  color: #212121;
+}
+
+.riskStripLow {
+  background: rgba(36, 161, 72, 0.96);
+}
+
+.statusRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.statusBadge {
+  font-family: var(--font-mono) !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.08em !important;
+  padding: 0 0.55rem !important;
+}
+
+.statusNeutral {
+  background: rgba(103, 108, 119, 0.08) !important;
+  color: var(--text-secondary) !important;
+}
+
+.fraudConfirmed {
+  background: rgba(250, 77, 86, 0.14) !important;
+  color: #fa4d56 !important;
+}
+
+.fraudSuspected {
+  background: rgba(255, 131, 137, 0.14) !important;
+  color: #ff8389 !important;
+}
+
+.blacklistFlag {
+  background: rgba(140, 45, 210, 0.14) !important;
+  color: #8c2dd2 !important;
+}
+
+.blacklistMonitored {
+  background: rgba(255, 181, 0, 0.14) !important;
+  color: #ffb500 !important;
+}
+
+// ── Header (icon + gauge + overflow) ─────────────────────────────
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem 0 0.75rem;
+}
+
+.typeIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-dim);
+  flex-shrink: 0;
+}
+
+.typeIcon {
+  fill: var(--accent);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.overflow {
+  // Carbon OverflowMenu override
+  button {
+    background: transparent !important;
+    color: var(--text-muted) !important;
+
+    &:hover {
+      background: var(--bg-hover) !important;
+      color: var(--text-primary) !important;
+    }
+  }
+}
+
+// ── Clickable tile body ───────────────────────────────────────────
+
+.tile {
+  // Reset Carbon tile styles
+  background: transparent !important;
+  border: none !important;
+  padding: 0.5rem 0.75rem 0.75rem !important;
+  width: 100% !important;
+  text-align: left;
+  cursor: pointer;
+  flex: 1;
+
+  &:hover,
+  &:focus {
+    background: transparent !important;
+    outline: none !important;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: -2px;
+  }
+}
+
+// ── Entity name ───────────────────────────────────────────────────
+
+.entityName {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+// ── Entity ID ─────────────────────────────────────────────────────
+
+.entityId {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.06em;
+}
+
+// ── Tags row ──────────────────────────────────────────────────────
+
+.tagsRow {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.typeTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.07em !important;
+  background: var(--accent-faint) !important;
+  color: var(--accent-bright) !important;
+  border-color: transparent !important;
+}
+
+.sourceTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.07em !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+
+.lastSeen {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-left: auto;
+}
+
+// ── Semantic tags ─────────────────────────────────────────────────
+
+.semanticTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.semTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.6rem !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+  letter-spacing: 0.03em !important;
+}
+
+.moreTag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  padding: 2px 4px;
+  align-self: center;
+}
+
+// ── Footer ────────────────────────────────────────────────────────
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.riskBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.riskCritical {
+  background: rgba(250, 77, 86, 0.15);
+  color: #fa4d56;
+  border: 1px solid rgba(250, 77, 86, 0.3);
+}
+
+.riskHigh {
+  background: rgba(255, 131, 137, 0.12);
+  color: #ff8389;
+  border: 1px solid rgba(255, 131, 137, 0.25);
+}
+
+.riskMedium {
+  background: rgba(241, 194, 27, 0.12);
+  color: #f1c21b;
+  border: 1px solid rgba(241, 194, 27, 0.25);
+}
+
+.riskLow {
+  background: rgba(36, 161, 72, 0.12);
+  color: #24a148;
+  border: 1px solid rgba(36, 161, 72, 0.25);
+}
+
+.connections {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}

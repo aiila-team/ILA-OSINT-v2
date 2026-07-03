@@ -1,0 +1,213 @@
+// src/components/LoginForm.module.scss
+
+$bg-field:        #1c1c1c;
+$bg-field-hover:  #242424;
+$border-subtle:   #2a2a2a;
+$border-strong:   #3d3d3d;
+$text-primary:    #f4f4f4;
+$text-secondary:  #a8a8a8;
+$text-placeholder:#525252;
+$accent:          #3ddbd9;
+$accent-hover:    #24a4a2;
+$accent-active:   #1a7a78;
+$danger:          #ff8389;
+$danger-bg:       rgba(255, 131, 137, 0.08);
+$focus:           #78a9ff;
+$font-mono:       'IBM Plex Mono', 'Fira Code', monospace;
+$font-sans:       'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+$ease:            cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeUp 300ms $ease both;
+}
+
+.formHeader {
+  margin-bottom: 0.25rem;
+}
+
+.formTitle {
+  font-family: $font-sans;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.formSub {
+  font-family: $font-sans;
+  font-size: 0.8125rem;
+  color: $text-secondary;
+  margin: 0;
+}
+
+// ─── Submit Error ─────────────────────────────────────────────────────────────
+
+.submitError {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: $danger-bg;
+  border: 1px solid rgba(255, 131, 137, 0.25);
+  border-left: 3px solid $danger;
+  font-family: $font-sans;
+  font-size: 0.8125rem;
+  color: $danger;
+  animation: fadeUp 200ms $ease both;
+}
+
+// ─── Field ────────────────────────────────────────────────────────────────────
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  &.hasError .inputWrapper {
+    border-color: $danger;
+    border-bottom-color: $danger;
+  }
+}
+
+.label {
+  font-family: $font-sans;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-secondary;
+  user-select: none;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: $bg-field;
+  border: 1px solid $border-subtle;
+  border-bottom: 2px solid $border-strong;
+  transition:
+    border-color 180ms $ease,
+    background-color 180ms $ease,
+    box-shadow 180ms $ease;
+
+  &:focus-within {
+    border-color: $accent;
+    background-color: $bg-field-hover;
+    box-shadow: inset 0 0 0 1px $accent;
+  }
+
+  &:hover:not(:focus-within) {
+    background-color: $bg-field-hover;
+    border-color: $border-strong;
+  }
+}
+
+.cursor {
+  flex-shrink: 0;
+  padding: 0 0.625rem;
+  font-family: $font-mono;
+  font-size: 0.625rem;
+  color: $accent;
+  animation: blink 1.4s step-end infinite;
+  user-select: none;
+}
+
+.input {
+  flex: 1;
+  padding: 0.6875rem 0.75rem 0.6875rem 0;
+  font-family: $font-mono;
+  font-size: 0.875rem;
+  color: $text-primary;
+  background: transparent;
+  border: none;
+  outline: none;
+  caret-color: $accent;
+
+  &::placeholder { color: $text-placeholder; }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 999px $bg-field-hover inset;
+    -webkit-text-fill-color: $text-primary;
+  }
+}
+
+.errorMsg {
+  font-family: $font-sans;
+  font-size: 0.6875rem;
+  color: $danger;
+  letter-spacing: 0.02em;
+  animation: fadeUp 150ms $ease both;
+}
+
+// ─── Submit Button ────────────────────────────────────────────────────────────
+
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.8125rem 1rem;
+  margin-top: 0.25rem;
+  font-family: $font-mono;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #0d0d0d;
+  background-color: $accent;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 180ms $ease,
+    box-shadow 180ms $ease,
+    transform 80ms ease;
+
+  &:hover:not(:disabled) {
+    background-color: $accent-hover;
+    box-shadow: 0 0 20px rgba(61, 219, 217, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $accent-active;
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $focus;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    background-color: #2d2d2d;
+    color: $text-placeholder;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}

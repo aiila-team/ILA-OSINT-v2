@@ -1,0 +1,44 @@
+// ── ILA OSINT Design Tokens ──────────────────────────────────────
+:root {
+  // Backgrounds
+  --bg-base:        #020617;
+  --bg-sidebar:     #080f1e;
+  --bg-surface:     #0a1628;
+  --bg-elevated:    #0d1f35;
+  --bg-hover:       rgba(0, 163, 199, 0.06);
+  --bg-active:      rgba(0, 163, 199, 0.1);
+
+  // Accent
+  --accent:         #00a3c7;
+  --accent-bright:  #00c3ef;
+  --accent-dim:     rgba(0, 163, 199, 0.35);
+  --accent-faint:   rgba(0, 163, 199, 0.08);
+
+  // Text
+  --text-primary:   #e0f0ff;
+  --text-secondary: rgba(160, 200, 230, 0.7);
+  --text-muted:     rgba(100, 150, 190, 0.45);
+  --text-accent:    #00a3c7;
+
+  // Borders
+  --border:         rgba(0, 163, 199, 0.12);
+  --border-strong:  rgba(0, 163, 199, 0.28);
+
+  // Status
+  --status-ok:      #24a148;
+  --status-warn:    #f1c21b;
+  --status-danger:  #fa4d56;
+  --status-info:    #4589ff;
+
+  // Sidebar
+  --sidebar-width:       240px;
+  --sidebar-collapsed:   60px;
+  --topbar-height:       52px;
+
+  // Typography
+  --font-mono:      'IBM Plex Mono', monospace;
+  --font-sans:      'IBM Plex Sans', sans-serif;
+
+  // Transitions
+  --transition:     0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}

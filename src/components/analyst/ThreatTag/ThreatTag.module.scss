@@ -1,0 +1,54 @@
+// src/components/analyst/ThreatTag/ThreatTag.module.scss
+
+.tag {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             4px;
+  padding:         2px 8px;
+  border-radius:   9999px;
+  font-size:       8px;
+  font-weight:     700;
+  letter-spacing:  0.08em;
+  font-family:     var(--font-mono, 'IBM Plex Mono', monospace);
+  white-space:     nowrap;
+  line-height:     1.6;
+
+  &.md {
+    font-size:  9px;
+    padding:    3px 10px;
+  }
+}
+
+.dot {
+  width:         5px;
+  height:        5px;
+  border-radius: 50%;
+  background:    currentColor;
+  flex-shrink:   0;
+}
+
+// ── Severity colours ────────────────────────────────────────────────
+
+.critical {
+  background: rgba(250, 77, 86, 0.15);
+  color:      #fa4d56;
+  border:     1px solid rgba(250, 77, 86, 0.28);
+}
+
+.high {
+  background: rgba(255, 131, 137, 0.12);
+  color:      #ff8389;
+  border:     1px solid rgba(255, 131, 137, 0.22);
+}
+
+.medium {
+  background: rgba(241, 194, 27, 0.12);
+  color:      #f1c21b;
+  border:     1px solid rgba(241, 194, 27, 0.22);
+}
+
+.low {
+  background: rgba(36, 161, 72, 0.12);
+  color:      #24a148;
+  border:     1px solid rgba(36, 161, 72, 0.22);
+}

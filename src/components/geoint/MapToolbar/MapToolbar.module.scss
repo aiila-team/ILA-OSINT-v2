@@ -1,0 +1,215 @@
+// src/components/geoint/MapToolbar/MapToolbar.module.scss
+
+$mono: var(--font-mono, 'IBM Plex Mono', monospace);
+$border: var(--panel-border, rgba(0,163,199,0.18));
+$accent: var(--accent, #00a3c7);
+$text-primary: var(--text-primary, #e0f0ff);
+$text-muted: var(--text-muted, rgba(100,150,190,0.45));
+$panel-bg: var(--panel-bg-solid, #060d1c);
+
+.toolbar {
+  height: var(--toolbar-height, 44px);
+  background: $panel-bg;
+  border-bottom: 1px solid $border;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.searchWrap {
+  flex: 0 0 260px;
+
+  :global(.cds--search) {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid $border;
+    border-radius: 2px;
+
+    input {
+      background: transparent;
+      color: $text-primary;
+      font-family: $mono;
+      font-size: 10px;
+      border: none;
+      outline: none;
+
+      &::placeholder {
+        color: $text-muted;
+      }
+    }
+
+    :global(.cds--search-magnifier) { color: $text-muted; }
+    :global(.cds--search-close)     { color: $text-muted; }
+  }
+}
+
+.separator {
+  width: 1px;
+  height: 22px;
+  background: $border;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+.styleGroup {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stylePill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 2px;
+  color: $text-muted;
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    color: $accent;
+    border-color: var(--panel-border-strong, rgba(0,163,199,0.32));
+  }
+}
+
+.stylePillActive {
+  color: $accent;
+  border-color: $accent;
+  background: var(--panel-active, rgba(0,163,199,0.12));
+}
+
+.stylePillIcon {
+  display: flex;
+  align-items: center;
+}
+
+.stylePillLabel {
+  font-size: 9px;
+}
+
+// Live indicator
+.liveBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 600;
+  color: $text-muted;
+  letter-spacing: 0.08em;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.liveBtnActive {
+  color: #24a148;
+  border-color: rgba(36, 161, 72, 0.4);
+  background: rgba(36, 161, 72, 0.08);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $text-muted;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.liveDotActive {
+  background: #24a148;
+  box-shadow: 0 0 0 0 rgba(36, 161, 72, 0.6);
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(36, 161, 72, 0.6); }
+  70%  { box-shadow: 0 0 0 5px rgba(36, 161, 72, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(36, 161, 72, 0); }
+}
+
+.liveBtnLabel {
+  font-size: 9px;
+}
+
+// Icon buttons
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 2px;
+  color: $text-muted;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $accent;
+    border-color: var(--panel-border-strong, rgba(0,163,199,0.32));
+  }
+}
+
+.alertsBtnActive {
+  color: $accent;
+  border-color: $accent;
+  background: var(--panel-active, rgba(0,163,199,0.12));
+}
+
+.refreshIcon {
+  display: flex;
+  align-items: center;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.refreshSpin {
+  animation: spin 0.6s linear;
+}
+
+// UTC clock
+.utcWrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.utcIcon {
+  color: $text-muted;
+}
+
+.utcLabel {
+  font-family: $mono;
+  font-size: 8px;
+  color: $text-muted;
+  letter-spacing: 0.1em;
+}
+
+.utcValue {
+  font-family: $mono;
+  font-size: 11px;
+  color: $accent;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}

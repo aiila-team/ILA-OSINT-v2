@@ -1,0 +1,175 @@
+// src/pages/AdminOverview.module.scss
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-base);
+}
+
+// ── Top navbar ──────────────────────────────────────────────────
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topbar-height);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-sidebar);
+  flex-shrink: 0;
+}
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.sep {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.crumbActive {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+
+  &:hover {
+    background: var(--bg-hover);
+    border-color: var(--border);
+    color: var(--accent-bright);
+  }
+}
+
+// ── Content area ────────────────────────────────────────────────
+.content {
+  flex: 1;
+  overflow: auto;
+  padding: 18px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.errorBanner {
+  background: rgba(250, 77, 86, 0.08);
+  border: 1px solid rgba(250, 77, 86, 0.3);
+  color: var(--status-danger);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.retryBtn {
+  background: transparent;
+  border: 1px solid var(--status-danger);
+  color: var(--status-danger);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(250, 77, 86, 0.12);
+  }
+}
+
+// ── KPI row ─────────────────────────────────────────────────────
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+// ── Generic 2-column responsive grid ────────────────────────────
+.grid2 {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 12px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+// ── Panel shell ─────────────────────────────────────────────────
+.panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panelTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--text-accent);
+}
+
+.panelSub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.panelBody {
+  padding: 12px 14px;
+}
+
+// ── Responsive breakpoints ──────────────────────────────────────
+@media (max-width: 1280px) {
+  .kpiRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .kpiRow {
+    grid-template-columns: 1fr;
+  }
+  .content {
+    padding: 14px 12px 22px;
+  }
+}

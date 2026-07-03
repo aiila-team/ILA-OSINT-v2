@@ -1,0 +1,93 @@
+// GraphTooltip.module.scss
+
+.tooltip {
+  position: fixed;
+  z-index: 800;
+  pointer-events: none;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  padding: 0.6rem 0.8rem;
+  min-width: 180px;
+  max-width: 240px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.nodeType {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.riskTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.06em !important;
+}
+
+.name {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.id {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.meta {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin: 0.15rem 0;
+  line-height: 1.4;
+}
+
+.source {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--accent-bright);
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-dim);
+  border-radius: 2px;
+  padding: 1px 5px;
+  margin-top: 0.4rem;
+  letter-spacing: 0.07em;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  margin: 0.4rem 0 0;
+  border-top: 1px solid var(--border);
+  padding-top: 0.35rem;
+  letter-spacing: 0.04em;
+}
+
+.edgeLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-bright);
+  letter-spacing: 0.08em;
+  margin: 0;
+}

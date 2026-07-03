@@ -1,0 +1,418 @@
+// LoginPage.module.scss
+// ILA OSINT — Full-screen intelligence platform landing
+
+// ─── Page Shell ──────────────────────────────────────────────────
+.page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+// ─── Background Grid ─────────────────────────────────────────────
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  // Dot matrix grid
+  background-image:
+    radial-gradient(circle, rgba(0, 163, 199, 0.18) 1px, transparent 1px);
+  background-size: 36px 36px;
+
+  // Additional radial glow at center
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      rgba(0, 40, 80, 0.45) 0%,
+      transparent 70%
+    );
+  }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 40%,
+    rgba(2, 6, 23, 0.75) 100%
+  );
+}
+
+// ─── Top Bar ─────────────────────────────────────────────────────
+.topBar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 52px;
+  border-bottom: 1px solid rgba(0, 163, 199, 0.1);
+  background: rgba(2, 6, 23, 0.7);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #24a148;
+  box-shadow: 0 0 8px rgba(36, 161, 72, 0.8);
+  animation: pulseDot 2s ease-in-out infinite;
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+}
+
+.statusText {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(36, 161, 72, 0.85);
+  text-transform: uppercase;
+}
+
+.separator {
+  color: rgba(0, 163, 199, 0.2);
+  font-size: 12px;
+}
+
+.utcTime {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(120, 160, 200, 0.45);
+  letter-spacing: 0.08em;
+}
+
+.topBarCenter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.brandMono {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  color: rgba(0, 163, 199, 0.6);
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+}
+
+// ─── Hero ────────────────────────────────────────────────────────
+.hero {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.classStamp {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 163, 199, 0.25);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.heroBadge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: rgba(0, 163, 199, 0.65);
+  border: 1px solid rgba(0, 163, 199, 0.2);
+  padding: 5px 14px;
+  margin-bottom: 24px;
+  background: rgba(0, 163, 199, 0.04);
+  text-transform: uppercase;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.1s;
+}
+
+// ─── Glitch Title ────────────────────────────────────────────────
+.heroTitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(44px, 8vw, 80px);
+  font-weight: 600;
+  color: #e0f0ff;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  margin: 0 0 20px;
+  position: relative;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.25s;
+
+  &.glitch {
+    &::before,
+    &::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      font: inherit;
+      letter-spacing: inherit;
+    }
+    &::before {
+      color: #00c3ef;
+      clip-path: polygon(0 25%, 100% 25%, 100% 45%, 0 45%);
+      transform: translateX(-3px);
+      animation: glitchClip1 0.22s steps(1) both;
+    }
+    &::after {
+      color: #fa4d56;
+      clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+      transform: translateX(3px);
+      animation: glitchClip2 0.22s steps(1) both;
+    }
+  }
+
+  @keyframes glitchClip1 {
+    0%, 100% { opacity: 0; }
+    20%, 60%  { opacity: 1; }
+  }
+  @keyframes glitchClip2 {
+    0%, 100% { opacity: 0; }
+    40%, 80%  { opacity: 1; }
+  }
+}
+
+// ─── Divider ─────────────────────────────────────────────────────
+.heroDivider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 260px;
+  margin-bottom: 20px;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.35s;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 163, 199, 0.4),
+    transparent
+  );
+}
+
+.dividerIcon {
+  font-size: 8px;
+  color: rgba(0, 163, 199, 0.6);
+}
+
+// ─── Tagline / Desc ───────────────────────────────────────────────
+.heroTagline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(13px, 2vw, 16px);
+  color: rgba(0, 163, 199, 0.85);
+  letter-spacing: 0.06em;
+  margin: 0 0 14px;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.45s;
+}
+
+.heroDesc {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(160, 190, 220, 0.5);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 0 36px;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.55s;
+}
+
+// ─── Stats Row ───────────────────────────────────────────────────
+.heroStats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.65s;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 20px;
+  border: 1px solid rgba(0, 163, 199, 0.12);
+  background: rgba(0, 163, 199, 0.03);
+  min-width: 100px;
+  transition: border-color 0.25s, background 0.25s;
+
+  &:hover {
+    border-color: rgba(0, 163, 199, 0.35);
+    background: rgba(0, 163, 199, 0.07);
+  }
+}
+
+.statValue {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: #00a3c7;
+  letter-spacing: 0.04em;
+}
+
+.statLabel {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: rgba(120, 160, 200, 0.45);
+  text-transform: uppercase;
+}
+
+// ─── Access Button ────────────────────────────────────────────────
+.accessBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid rgba(0, 163, 199, 0.35);
+  color: #00a3c7;
+  cursor: pointer;
+  padding: 14px 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+  animation: fadeSlideUp 1s ease both;
+  animation-delay: 0.8s;
+
+  &:hover {
+    background: #00a3c7;
+    border-color: #00a3c7;
+    color: #020617;
+    box-shadow: 0 0 32px rgba(0, 163, 199, 0.4);
+  }
+}
+
+.accessArrow {
+  font-size: 16px;
+  transition: transform 0.25s;
+
+  .accessBtn:hover & {
+    transform: translateX(4px);
+  }
+}
+
+// ─── Ticker ──────────────────────────────────────────────────────
+.ticker {
+  position: relative;
+  z-index: 10;
+  height: 36px;
+  background: rgba(0, 163, 199, 0.06);
+  border-top: 1px solid rgba(0, 163, 199, 0.12);
+  border-bottom: 1px solid rgba(0, 163, 199, 0.12);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tickerTrack {
+  display: flex;
+  white-space: nowrap;
+  animation: tickerScroll 40s linear infinite;
+
+  @keyframes tickerScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+}
+
+.tickerText {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(0, 163, 199, 0.45);
+  padding-right: 0;
+  text-transform: uppercase;
+}
+
+// ─── Footer ──────────────────────────────────────────────────────
+.bottomBar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 38px;
+  background: rgba(2, 6, 23, 0.8);
+  border-top: 1px solid rgba(0, 163, 199, 0.08);
+  flex-shrink: 0;
+}
+
+.footerLeft,
+.footerRight {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(100, 140, 180, 0.35);
+  text-transform: uppercase;
+}
+
+// ─── Shared Keyframe ─────────────────────────────────────────────
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

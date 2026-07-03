@@ -1,0 +1,165 @@
+Frontend/
+├─ .gitignore
+├─ .npmrc
+├─ .vscode/
+├─ dist/
+├─ eslint.config.js
+├─ ila.env
+├─ index.html
+├─ node_modules/
+├─ package-lock.json
+├─ package.json
+├─ public/
+├─ README.md
+├─ src/
+│  ├─ api/
+│  │  ├─ apolloClient.ts
+│  │  └─ axiosInstance.ts
+│  ├─ App.css
+│  ├─ App.tsx
+│  ├─ assets/
+│  ├─ auth/
+│  │  └─ useAuth.ts
+│  ├─ components/
+│  │  ├─ ActivityFeed.tsx
+│  │  ├─ MetricsCard.tsx
+│  │  ├─ UserCard.tsx
+│  │  ├─ analyst/
+│  │  │  ├─ AnalystPageshell/
+│  │  │  │  ├─ AnalystPageShell.module.scss
+│  │  │  │  ├─ AnalystPageShell.tsx
+│  │  │  │  └─ index.ts
+│  │  │  ├─ AnalystPageShell.module.scss
+│  │  │  ├─ DateRangePicker/
+│  │  │  │  ├─ DateRangePicker.module.scss
+│  │  │  │  └─ DateRangePicker.tsx
+│  │  │  ├─ Entitycard/
+│  │  │  │  ├─ EntityCard.module.scss
+│  │  │  │  └─ EntityCard.tsx
+│  │  │  ├─ EntityDrawer/
+│  │  │  │  ├─ EntityDrawer.module.scss
+│  │  │  │  └─ EntityDrawer.tsx
+│  │  │  ├─ GraphCanvas/
+│  │  │  │  ├─ GraphCanvas.module.scss
+│  │  │  │  ├─ GraphCanvas.tsx
+│  │  │  │  ├─ GraphEdge.tsx
+│  │  │  │  ├─ GraphNode.tsx
+│  │  │  │  ├─ GraphTooltip.module.scss
+│  │  │  │  └─ GraphTooltip.tsx
+│  │  │  ├─ NoteThread/
+│  │  │  │  ├─ NoteThread.module.scss
+│  │  │  │  └─ NoteThread.tsx
+│  │  │  ├─ RiskGauge/
+│  │  │  │  └─ ...
+│  │  │  ├─ ShortcutsOverlay/
+│  │  │  │  └─ ...
+│  │  │  ├─ ThreatTag/
+│  │  │  │  └─ ...
+│  │  │  ├─ TimelineAnalysis/
+│  │  │  │  └─ ...
+│  │  │  └─ TimelineCanvas/
+│  │  │     └─ ...
+│  │  ├─ Auth/
+│  │  │  ├─ HamburgerMenu.module.scss
+│  │  │  ├─ HamburgerMenu.tsx
+│  │  │  ├─ Logincard.module.scss
+│  │  │  ├─ LoginCard.tsx
+│  │  │  ├─ LoginForm.module.scss
+│  │  │  ├─ LoginForm.tsx
+│  │  │  ├─ MfaForm.module.scss
+│  │  │  ├─ MfaForm.tsx
+│  │  │  ├─ PlatformInfo.module.scss
+│  │  │  ├─ PlatformInfo.tsx
+│  │  │  ├─ SecurityNotice.module.scss
+│  │  │  └─ SecurityNotice.tsx
+│  │  ├─ geoint/
+│  │  │  ├─ AircraftLayer/
+│  │  │  │  └─ AircraftLayer.tsx
+│  │  │  ├─ DetailsPanel/
+│  │  │  │  ├─ DetailsPanel.module.scss
+│  │  │  │  └─ DetailsPanel.tsx
+│  │  │  ├─ EventLayer/
+│  │  │  │  └─ ...
+│  │  │  ├─ GeoMap/
+│  │  │  │  └─ ...
+│  │  │  ├─ LayerControlPanel/
+│  │  │  │  ├─ LayerControlPanel.module.scss
+│  │  │  │  └─ LayerControlPanel.tsx
+│  │  │  ├─ MapToolbar/
+│  │  │  │  ├─ MapToolbar.module.scss
+│  │  │  │  └─ MapToolbar.tsx
+│  │  │  └─ VesselLayer/
+│  │  │     └─ ...
+│  │  └─ sidebar/
+│  │     ├─ Sidebar.module.scss
+│  │     └─ Sidebar.tsx
+│  ├─ data/
+│  │  ├─ mockUsers.ts
+│  │  └─ mock/
+│  │     ├─ mockAircraft.ts
+│  │     ├─ mockGeoEvents.ts
+│  │     └─ mockVessels.ts
+│  ├─ hooks/
+│  │  ├─ index.ts
+│  │  ├─ useAlertInboxData.ts
+│  │  ├─ useAlerts.ts
+│  │  ├─ useCases.ts
+│  │  ├─ useEntitySearch.ts
+│  │  ├─ useGeoIntel.ts
+│  │  ├─ useGraph.ts
+│  │  ├─ useInvestigations.ts
+│  │  ├─ useReports.ts
+│  │  ├─ useShortcuts.ts
+│  │  └─ useTimeline.ts
+│  ├─ index.css
+│  ├─ main.tsx
+│  ├─ pages/
+│  │  └─ Login/
+│  │     ├─ LoginPage.module.scss
+│  │     └─ LoginPage.tsx
+│  ├─ presentation/
+│  │  ├─ layouts/
+│  │  │  ├─ DashboardLayout.module.scss
+│  │  │  └─ DashboardLayout.tsx
+│  │  └─ pages/
+│  │     ├─ admin/
+│  │     │  ├─ ActiveUsersPage.module.scss
+│  │     │  ├─ ActiveUsersPage.tsx
+│  │     │  ├─ CreateUserPage.module.scss
+│  │     │  ├─ CreateUserPage.tsx
+│  │     │  ├─ DashboardPage.module.scss
+│  │     │  ├─ DashboardPage.tsx
+│  │     │  ├─ RolesPage.module.scss
+│  │     │  ├─ RolesPage.tsx
+│  │     │  ├─ SystemHealthPage.module.scss
+│  │     │  └─ SystemHealthPage.tsx
+│  │     └─ analyst/
+│  │        ├─ AlertInboxPage.module.scss
+│  │        ├─ AlertInboxPage.tsx
+│  │        ├─ CaseManagementPage.module.scss
+│  │        ├─ CaseManagementPage.tsx
+│  │        ├─ EntitySearchPage.module.scss
+│  │        ├─ EntitySearchPage.tsx
+│  │        ├─ GeoIntelPage.module.scss
+│  │        ├─ GeoIntelPage.tsx
+│  │        ├─ GraphAnalysisPage.module.scss
+│  │        ├─ GraphAnalysisPage.tsx
+│  │        ├─ InvestigationsPage.module.scss
+│  │        ├─ InvestigationsPage.tsx
+│  │        ├─ ReportsPage.module.scss
+│  │        ├─ ReportsPage.tsx
+│  │        ├─ TimelinePage.module.scss
+│  │        └─ TimelinePage.tsx
+│  ├─ States/
+│  │  └─ useUIStore.ts
+│  ├─ styles/
+│  │  ├─ geoint-tokens.scss
+│  │  ├─ motion.ts
+│  │  └─ variables.scss
+│  └─ visualization/
+│     ├─ AnalyticsPanel.module.scss
+│     └─ AnalyticsPanel.tsx
+├─ tsconfig.app.json
+├─ tsconfig.json
+├─ tsconfig.node.json
+└─ vite.config.ts

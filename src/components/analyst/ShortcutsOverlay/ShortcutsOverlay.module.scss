@@ -1,0 +1,172 @@
+// src/components/analyst/ShortcutsOverlay/ShortcutsOverlay.module.scss
+
+// Backdrop
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+// Panel
+.panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 640px;
+  max-width: calc(100vw - 2rem);
+  background: var(--bg-surface, #0a1628);
+  border: 1px solid rgba(0, 163, 199, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6),
+              0 0 0 1px rgba(0, 163, 199, 0.08);
+  overflow: hidden;
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badge {
+  font-family: var(--font-mono, 'IBM Plex Mono');
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent, #00a3c7);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-sans, 'IBM Plex Sans');
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cds-text-primary, #f4f4f4);
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: rgba(0, 163, 199, 0.4);
+    color: var(--accent, #00a3c7);
+    background: rgba(0, 163, 199, 0.08);
+  }
+}
+
+// Body — two columns
+.body {
+  display: flex;
+  gap: 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.columnTitle {
+  font-family: var(--font-mono, 'IBM Plex Mono');
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+// Shortcut row
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+}
+
+.keys {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-family: var(--font-mono, 'IBM Plex Mono');
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--cds-text-primary, #f4f4f4);
+  letter-spacing: 0.02em;
+}
+
+.plus {
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 1px;
+}
+
+.action {
+  font-family: var(--font-sans, 'IBM Plex Sans');
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+}
+
+// Footer
+.footer {
+  padding: 0.875rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-sans, 'IBM Plex Sans');
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

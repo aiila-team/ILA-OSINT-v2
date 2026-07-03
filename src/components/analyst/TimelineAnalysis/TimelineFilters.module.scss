@@ -1,0 +1,56 @@
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: #0b1527;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.75rem;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filterControl {
+  min-width: 240px;
+  flex: 1;
+}
+
+.threatControl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 320px;
+}
+
+.threatButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.timeButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.timeButton {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #111827;
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+}
+
+.timeButton:hover {
+  background: rgba(255,255,255,0.06);
+}

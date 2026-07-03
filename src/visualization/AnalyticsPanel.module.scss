@@ -1,0 +1,179 @@
+@use '../styles/variables';
+
+.panel { display: flex; flex-direction: column; gap: 24px; }
+
+// ── Stat Cards ────────────────────────────────────────────────────
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition), background var(--transition);
+
+  &:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.statDelta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.statBar {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.statBarFill {
+  height: 100%;
+  width: 65%;
+  border-radius: 1px;
+  opacity: 0.6;
+}
+
+// ── Lower Grid ────────────────────────────────────────────────────
+.lowerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.cardBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+}
+
+// ── Alert List ────────────────────────────────────────────────────
+.alertList { display: flex; flex-direction: column; gap: 0; }
+
+.alertRow {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr 48px;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+
+  &:last-child { border-bottom: none; }
+}
+
+.alertSeverity {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.alertId {
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.alertDesc {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alertTime {
+  color: var(--text-muted);
+  text-align: right;
+}
+
+// ── Activity graph ────────────────────────────────────────────────
+.graphPlaceholder {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 100px;
+  padding: 0 4px;
+}
+
+.bar {
+  flex: 1;
+  background: rgba(0, 163, 199, 0.35);
+  border-radius: 1px 1px 0 0;
+  transition: background 0.2s;
+  min-height: 4px;
+
+  &:hover { background: rgba(0, 163, 199, 0.7); }
+}
+
+.graphLabels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  padding: 0 4px;
+}

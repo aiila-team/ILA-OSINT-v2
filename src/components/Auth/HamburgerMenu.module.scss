@@ -1,0 +1,100 @@
+// HamburgerMenu.module.scss
+// Enterprise-grade cyber intelligence hamburger trigger
+
+.hamburger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid rgba(0, 163, 199, 0.25);
+  cursor: pointer;
+  padding: 10px 16px 10px 14px;
+  position: relative;
+  transition: border-color 0.25s ease, background 0.25s ease;
+  outline: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 163, 199, 0.04);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  &:hover {
+    border-color: rgba(0, 163, 199, 0.6);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .line {
+      &:nth-child(1) { width: 22px; }
+      &:nth-child(2) { width: 16px; }
+      &:nth-child(3) { width: 19px; }
+    }
+
+    .label {
+      letter-spacing: 0.18em;
+      color: #00a3c7;
+    }
+  }
+
+  &.active {
+    border-color: rgba(0, 163, 199, 0.5);
+    background: rgba(0, 163, 199, 0.06);
+
+    .line {
+      &:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+        width: 20px;
+      }
+      &:nth-child(2) {
+        opacity: 0;
+        width: 0;
+      }
+      &:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+        width: 20px;
+      }
+    }
+
+    .label {
+      color: #00a3c7;
+    }
+  }
+}
+
+.label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(200, 220, 240, 0.55);
+  text-transform: uppercase;
+  transition: color 0.25s ease, letter-spacing 0.25s ease;
+  user-select: none;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 22px;
+}
+
+.line {
+  display: block;
+  height: 1.5px;
+  background: rgba(0, 163, 199, 0.8);
+  border-radius: 1px;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    width 0.25s ease,
+    opacity 0.25s ease;
+  transform-origin: left center;
+
+  &:nth-child(1) { width: 20px; }
+  &:nth-child(2) { width: 14px; }
+  &:nth-child(3) { width: 17px; }
+}

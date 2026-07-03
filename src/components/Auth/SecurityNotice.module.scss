@@ -1,0 +1,93 @@
+// src/components/SecurityNotice.module.scss
+
+$amber:          #f1c21b;
+$amber-dim:      rgba(241, 194, 27, 0.08);
+$amber-border:   rgba(241, 194, 27, 0.22);
+$text-secondary: #a8a8a8;
+$text-muted:     #6f6f6f;
+$border-subtle:  #2a2a2a;
+$font-mono:      'IBM Plex Mono', 'Fira Code', monospace;
+$font-sans:      'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+$ease:           cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+// ─── Wrapper ──────────────────────────────────────────────────────────────────
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem 1.125rem;
+  border-top: 1px solid $border-subtle;
+  background-color: $amber-dim;
+  text-align: center;
+}
+
+// ─── Icon Row ─────────────────────────────────────────────────────────────────
+
+.iconRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.warnIcon {
+  flex-shrink: 0;
+  font-size: 0.625rem;
+  color: $amber;
+  animation: blink 2.4s step-end infinite;
+  user-select: none;
+}
+
+.ruleLine {
+  flex: 1;
+  height: 1px;
+  background: $amber-border;
+}
+
+// ─── Text ─────────────────────────────────────────────────────────────────────
+
+.primaryText {
+  font-family: $font-sans;
+  font-size: 0.6875rem;
+  color: $amber;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: 0;
+
+  strong {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+}
+
+.secondaryText {
+  font-family: $font-sans;
+  font-size: 0.5625rem;
+  color: $text-muted;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 36ch;
+}
+
+// ─── Bottom Rule ─────────────────────────────────────────────────────────────
+
+.bottomRule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $amber-border 40%,
+    $amber-border 60%,
+    transparent
+  );
+  margin-top: 0.25rem;
+}

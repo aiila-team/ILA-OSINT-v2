@@ -1,0 +1,511 @@
+// src/presentation/pages/admin/AccessControlPage.module.scss
+// ILA OSINT — Access Control Page Styles
+
+// ─────────────────────────────────────────────────────────────────
+// Page body
+// ─────────────────────────────────────────────────────────────────
+
+.pageBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Header badge
+// ─────────────────────────────────────────────────────────────────
+
+.headerBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 9px;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Inline notification
+// ─────────────────────────────────────────────────────────────────
+
+.notifWrap {
+  margin-bottom: 0.25rem;
+
+  :global(.cds--inline-notification) {
+    background: rgba(36, 161, 72, 0.08) !important;
+    border-color: rgba(36, 161, 72, 0.25) !important;
+    border-radius: 2px !important;
+  }
+
+  :global(.cds--inline-notification__title),
+  :global(.cds--inline-notification__subtitle) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.05em !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Section cards
+// ─────────────────────────────────────────────────────────────────
+
+.sectionCard {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1.1rem 1.25rem;
+}
+
+.sectionCardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionCardIcon {
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+  margin-top: 2px;
+  flex-shrink: 0;
+
+  svg { fill: var(--accent); }
+}
+
+.sectionCardTitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.14em;
+  margin: 0 0 3px;
+}
+
+.sectionCardSub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Warning banner
+// ─────────────────────────────────────────────────────────────────
+
+.warningBanner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(241, 194, 27, 0.06);
+  border: 1px solid rgba(241, 194, 27, 0.2);
+  border-radius: 2px;
+  padding: 0.45rem 0.75rem;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(241, 194, 27, 0.75);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.warningIcon {
+  fill: rgba(241, 194, 27, 0.75);
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Table
+// ─────────────────────────────────────────────────────────────────
+
+.tableActionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.tableCount {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.addBtn {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.08em !important;
+  min-height: 30px !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+
+  &:hover { background: var(--accent-bright) !important; }
+}
+
+.tableWrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.tableContainer {
+  background: transparent !important;
+}
+
+.table {
+  background: transparent !important;
+}
+
+.th {
+  background: var(--bg-sidebar) !important;
+  border-bottom: 1px solid var(--border-strong) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.12em !important;
+  color: var(--text-muted) !important;
+  white-space: nowrap;
+  padding: 8px 12px !important;
+}
+
+.tr {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border) !important;
+  transition: background var(--transition) !important;
+
+  &:hover { background: var(--bg-hover) !important; }
+}
+
+.td {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.73rem !important;
+  border-bottom: none !important;
+  padding: 9px 12px !important;
+  vertical-align: middle;
+}
+
+.monoTd {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  color: var(--accent) !important;
+  letter-spacing: 0.04em !important;
+}
+
+.statusTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+.deleteBtn {
+  min-height: unset !important;
+  padding: 4px !important;
+  color: var(--status-danger) !important;
+
+  svg { fill: var(--status-danger) !important; }
+
+  &:hover {
+    background: rgba(250, 77, 86, 0.08) !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// MFA Policy layout
+// ─────────────────────────────────────────────────────────────────
+
+.policyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mfaMethod {
+  display: flex;
+  flex-direction: column;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Toggle rows
+// ─────────────────────────────────────────────────────────────────
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+
+  &:last-of-type { border-bottom: none; }
+}
+
+.toggleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  padding-right: 1.25rem;
+}
+
+.toggleLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.toggleDesc {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+}
+
+.toggle {
+  flex-shrink: 0;
+
+  :global(.cds--toggle__switch) {
+    background: var(--border-strong) !important;
+  }
+
+  :global(.cds--toggle__input:checked ~ .cds--toggle__label .cds--toggle__switch) {
+    background: var(--accent) !important;
+  }
+
+  :global(.cds--toggle__label) { margin: 0 !important; }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Field labels & hints
+// ─────────────────────────────────────────────────────────────────
+
+.fieldLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.fieldHint {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  margin: 0.35rem 0 0;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Select
+// ─────────────────────────────────────────────────────────────────
+
+.select {
+  :global(.cds--select-input) {
+    background: var(--bg-sidebar) !important;
+    border-bottom-color: var(--border-strong) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.72rem !important;
+    height: 36px !important;
+
+    &:focus { border-bottom-color: var(--accent) !important; }
+  }
+
+  :global(.cds--select__arrow) { fill: var(--text-muted) !important; }
+  :global(.cds--label) { display: none; }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Session policy
+// ─────────────────────────────────────────────────────────────────
+
+.sessionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.numberGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.numberInput {
+  :global(.cds--number__input-wrapper input) {
+    background: var(--bg-sidebar) !important;
+    border-bottom-color: var(--border-strong) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.8rem !important;
+    height: 36px !important;
+
+    &:focus { border-bottom-color: var(--accent) !important; outline: none !important; }
+  }
+
+  :global(.cds--number__controls button) {
+    background: var(--bg-sidebar) !important;
+    border-color: var(--border-strong) !important;
+
+    svg { fill: var(--text-muted) !important; }
+    &:hover { background: var(--bg-hover) !important; }
+  }
+
+  :global(.cds--label) { display: none; }
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.75rem 0;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Modals
+// ─────────────────────────────────────────────────────────────────
+
+.modal {
+  :global(.cds--modal-container) {
+    background: var(--bg-elevated) !important;
+    border: 1px solid var(--border-strong) !important;
+  }
+}
+
+.modalHeader {
+  :global(.cds--modal-header__heading) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.1em !important;
+    color: var(--text-primary) !important;
+  }
+
+  :global(.cds--modal-close) {
+    background: transparent !important;
+    svg { fill: var(--text-muted) !important; }
+    &:hover { background: var(--bg-hover) !important; }
+  }
+}
+
+.modalBody {
+  background: var(--bg-elevated);
+  padding: 1rem 1.5rem !important;
+}
+
+.modalField {
+  margin-bottom: 0.85rem;
+
+  :global(.cds--label) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.12em !important;
+    color: var(--text-muted) !important;
+  }
+
+  :global(.cds--text-input),
+  :global(.cds--text-area) {
+    background: var(--bg-sidebar) !important;
+    border-bottom-color: var(--border-strong) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.72rem !important;
+
+    &::placeholder { color: var(--text-muted) !important; }
+    &:focus { border-bottom-color: var(--accent) !important; outline: none !important; }
+  }
+
+  :global(.cds--form-requirement) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.6rem !important;
+    color: var(--status-danger) !important;
+  }
+}
+
+.modalFooter {
+  background: var(--bg-sidebar) !important;
+  border-top: 1px solid var(--border) !important;
+  padding: 0.75rem 1.5rem !important;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.modalBtn {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.08em !important;
+  min-height: 32px !important;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Delete confirm
+// ─────────────────────────────────────────────────────────────────
+
+.confirmText {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.4rem;
+  line-height: 1.5;
+}
+
+.confirmHighlight {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.confirmSub {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  margin: 0 0 0.85rem;
+}
+
+.confirmNotif {
+  :global(.cds--inline-notification) {
+    background: rgba(241, 194, 27, 0.06) !important;
+    border-color: rgba(241, 194, 27, 0.2) !important;
+    border-radius: 2px !important;
+  }
+
+  :global(.cds--inline-notification__title),
+  :global(.cds--inline-notification__subtitle) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.62rem !important;
+    color: rgba(241, 194, 27, 0.8) !important;
+  }
+}

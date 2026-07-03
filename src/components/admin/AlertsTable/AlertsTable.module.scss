@@ -1,0 +1,116 @@
+// src/components/admin/AlertsTable/AlertsTable.module.scss
+.wrap {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    text-align: left;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 9px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--bg-hover);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background: var(--bg-hover);
+  }
+}
+
+.idCell {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.timeCell {
+  color: var(--text-muted);
+}
+
+.riskBadge,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+// Risk level variants
+.risk_low {
+  background: rgba(36, 161, 72, 0.1);
+  color: var(--status-ok);
+}
+.risk_medium {
+  background: rgba(241, 194, 27, 0.1);
+  color: var(--status-warn);
+}
+.risk_high {
+  background: rgba(250, 77, 86, 0.12);
+  color: var(--status-danger);
+}
+.risk_critical {
+  background: rgba(250, 77, 86, 0.18);
+  color: var(--status-danger);
+  border: 1px solid rgba(250, 77, 86, 0.4);
+}
+
+// Status variants
+.status_open {
+  background: rgba(69, 137, 255, 0.1);
+  color: var(--status-info);
+}
+.status_investigating {
+  background: rgba(241, 194, 27, 0.1);
+  color: var(--status-warn);
+}
+.status_resolved {
+  background: rgba(36, 161, 72, 0.1);
+  color: var(--status-ok);
+}
+.status_dismissed {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+}
+
+// ── Loading skeleton ────────────────────────────────────────────
+.skeletonCell {
+  height: 12px;
+  width: 80%;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
