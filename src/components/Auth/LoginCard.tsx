@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, TextInput, PasswordInput } from '@carbon/react';
 import { Security, Close, ArrowRight } from '@carbon/icons-react';
-import styles from "./temp.module.scss";
+import styles from "./LoginCard.module.scss";
 interface LoginCardProps {
   isOpen: boolean;
   onClose: () => void;
