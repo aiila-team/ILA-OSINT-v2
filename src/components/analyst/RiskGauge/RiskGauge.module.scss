@@ -1,0 +1,13 @@
+// src/components/analyst/RiskGauge/RiskGauge.module.scss
+
+.wrap {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+
+  svg {
+    display: block;
+    overflow: visible; // allow glow to bleed
+  }
+}

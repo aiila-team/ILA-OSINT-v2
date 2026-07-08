@@ -1,0 +1,301 @@
+@use '../../../styles/variables';
+
+.page { width: 100%; }
+
+// ── Coming Soon ───────────────────────────────────────────────────
+.comingSoon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.csInner {
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  padding: 48px 60px;
+  max-width: 520px;
+}
+
+.csLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.csTitle {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+  margin: 0 0 12px;
+}
+
+.csDesc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.csStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--status-ok);
+  border: 1px solid rgba(36, 161, 72, 0.3);
+  padding: 6px 14px;
+  background: rgba(36, 161, 72, 0.06);
+}
+
+.csDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-ok);
+  animation: blink 1.5s ease-in-out infinite;
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+}
+
+// ── Form Panel ────────────────────────────────────────────────────
+.formPanel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 28px;
+  max-width: 720px;
+}
+
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.formTitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text-primary);
+}
+
+.formSub {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fieldLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.fieldInput {
+  background: rgba(0, 10, 25, 0.7);
+  border: 1px solid var(--border);
+  border-bottom-color: var(--border-strong);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+  appearance: none;
+
+  &::placeholder { color: var(--text-muted); }
+
+  &:focus {
+    border-color: var(--accent);
+    background: rgba(0, 163, 199, 0.04);
+    outline: 1px solid rgba(0, 163, 199, 0.3);
+    outline-offset: -1px;
+  }
+
+  option { background: #0a1628; }
+}
+
+.submitBtn {
+  background: var(--accent);
+  border: none;
+  color: #020617;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 13px 32px;
+  cursor: pointer;
+  transition: background var(--transition), box-shadow var(--transition);
+
+  &:hover {
+    background: var(--accent-bright);
+    box-shadow: 0 0 24px rgba(0, 163, 199, 0.4);
+  }
+}
+
+// ── Table Panel ───────────────────────────────────────────────────
+.tablePanel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tableTitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text-primary);
+}
+
+.tableCount {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+
+.tr {
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+
+  &:hover { background: var(--bg-hover); }
+  &:last-child { border-bottom: none; }
+}
+
+.td {
+  padding: 12px 16px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.mono { font-family: var(--font-mono) !important; font-size: 11px !important; }
+.muted { color: var(--text-muted) !important; }
+
+// Badges
+.roleBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+.roleAdmin   { background: rgba(0,163,199,0.1); color: #00a3c7; border: 1px solid rgba(0,163,199,0.3); }
+.roleAnalyst { background: rgba(69,137,255,0.1); color: #4589ff; border: 1px solid rgba(69,137,255,0.3); }
+.roleViewer  { background: rgba(100,150,190,0.08); color: #6b8aad; border: 1px solid rgba(100,150,190,0.2); }
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.statusDotSmall {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.actions { display: flex; gap: 8px; }
+
+.actionBtn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--accent);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+
+  &:hover { background: var(--accent-faint); border-color: var(--accent); }
+}
+
+.actionBtnDanger {
+  @extend .actionBtn;
+  color: var(--status-danger);
+  border-color: rgba(250,77,86,0.3);
+
+  &:hover { background: rgba(250,77,86,0.08); border-color: var(--status-danger); }
+}
+
+.actionTag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-faint);
+  padding: 3px 8px;
+  border: 1px solid var(--border-strong);
+}

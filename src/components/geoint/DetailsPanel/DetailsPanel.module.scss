@@ -1,0 +1,261 @@
+// src/components/geoint/DetailsPanel/DetailsPanel.module.scss
+
+$mono: var(--font-mono, 'IBM Plex Mono', monospace);
+$border: var(--panel-border, rgba(0,163,199,0.18));
+$accent: var(--accent, #00a3c7);
+$text-primary: var(--text-primary, #e0f0ff);
+$text-secondary: var(--text-secondary, rgba(160,200,230,0.7));
+$text-muted: var(--text-muted, rgba(100,150,190,0.45));
+$panel-bg: var(--panel-bg-solid, #060d1c);
+
+.panel {
+  width: var(--detail-panel-width, 300px);
+  height: 100%;
+  background: $panel-bg;
+  border-left: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+  background: rgba(0, 163, 199, 0.04);
+}
+
+.panelTitle {
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  color: $text-muted;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 2px;
+  color: $text-muted;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+
+  &:hover {
+    color: $accent;
+    border-color: var(--panel-border-strong, rgba(0,163,199,0.32));
+  }
+}
+
+.panelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: $border transparent;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $border; border-radius: 2px; }
+}
+
+// Feature header
+.featureHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.featureTitle {
+  font-family: $mono;
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: 0.06em;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.featureBadge {
+  font-family: $mono;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+// Route display (aircraft)
+.routeDisplay {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: rgba(0, 163, 199, 0.05);
+  border: 1px solid $border;
+  border-radius: 2px;
+}
+
+.routeCode {
+  font-family: $mono;
+  font-size: 14px;
+  font-weight: 700;
+  color: $accent;
+}
+
+.routeArrow {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-muted;
+  letter-spacing: -0.05em;
+}
+
+// Section title
+.sectionTitle {
+  font-family: $mono;
+  font-size: 8px;
+  font-weight: 700;
+  color: $text-muted;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 14px 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0, 163, 199, 0.08);
+}
+
+// Data rows
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+
+  &:last-child { border-bottom: none; }
+}
+
+.rowLabel {
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.rowValue {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-primary;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Severity bar
+.severityBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 5px 8px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 2px;
+  border: 1px solid $border;
+}
+
+.severityDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.severityLabel {
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.severityType {
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+  letter-spacing: 0.04em;
+}
+
+.severityTime {
+  margin-left: auto;
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+}
+
+// Description
+.description {
+  font-family: var(--font-sans, 'IBM Plex Sans', sans-serif);
+  font-size: 11px;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+// Tags
+.tagWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.entityTag {
+  font-family: $mono;
+  font-size: 9px;
+}
+
+// Action buttons
+.panelActions {
+  padding: 10px 12px;
+  border-top: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.actionBtn {
+  font-family: $mono;
+  font-size: 10px;
+  justify-content: flex-start;
+  color: $text-secondary;
+  border-color: transparent;
+  padding: 6px 8px;
+  min-height: 32px;
+
+  &:hover {
+    color: $accent;
+    background: var(--panel-hover);
+  }
+}

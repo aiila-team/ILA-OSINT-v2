@@ -1,0 +1,153 @@
+// src/presentation/pages/analyst/GeoIntelPage.module.scss
+// ILA OSINT — GeoIntel Page Layout styles
+
+$mono:         var(--font-mono, 'IBM Plex Mono', monospace);
+$border:       var(--panel-border, rgba(0, 163, 199, 0.18));
+$accent:       var(--accent, #00a3c7);
+$text-primary: var(--text-primary, #e0f0ff);
+$text-muted:   var(--text-muted, rgba(100, 150, 190, 0.45));
+
+// ── Page wrapper ──────────────────────────────────────────────────
+
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+// ── Three-panel shell ─────────────────────────────────────────────
+
+.mapShell {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+// ── Centre map column ─────────────────────────────────────────────
+
+.mapColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+// ── Map canvas area ───────────────────────────────────────────────
+
+.mapCanvas {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+// ── Coordinate overlay ────────────────────────────────────────────
+
+.coordOverlay {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(2, 8, 23, 0.8);
+  border: 1px solid $border;
+  border-radius: 2px;
+  padding: 3px 8px;
+  z-index: 400; // above Leaflet tiles (~200), below controls (~1000)
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+.coordItem {
+  font-family: $mono;
+  font-size: 9px;
+  color: $accent;
+  letter-spacing: 0.05em;
+}
+
+.coordSep {
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+}
+
+// ── Page header actions ───────────────────────────────────────────
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liveBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: $text-muted;
+  padding: 3px 8px;
+  border: 1px solid $border;
+  border-radius: 2px;
+}
+
+.liveBadgeActive {
+  color: #24a148;
+  border-color: rgba(36, 161, 72, 0.4);
+  background: rgba(36, 161, 72, 0.08);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $text-muted;
+  flex-shrink: 0;
+}
+
+.liveDotActive {
+  background: #24a148;
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0   rgba(36, 161, 72, 0.6); }
+  70%  { box-shadow: 0 0 0 5px rgba(36, 161, 72, 0);   }
+  100% { box-shadow: 0 0 0 0   rgba(36, 161, 72, 0);   }
+}
+
+.refreshLabel {
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+  letter-spacing: 0.04em;
+}
+
+.casesBadge {
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fa4d56;
+  padding: 2px 7px;
+  border: 1px solid rgba(250, 77, 86, 0.35);
+  border-radius: 2px;
+  background: rgba(250, 77, 86, 0.08);
+  letter-spacing: 0.06em;
+}
+
+// ── Responsive ────────────────────────────────────────────────────
+
+@media (max-width: 1024px) {
+  .mapShell {
+    flex-direction: column;
+  }
+}

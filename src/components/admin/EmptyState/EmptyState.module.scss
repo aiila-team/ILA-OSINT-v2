@@ -1,0 +1,88 @@
+// src/components/admin/InsightsPanel/InsightsPanel.module.scss
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.iconTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a56eff;
+}
+
+.confBadge {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  padding: 1px 7px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.conf_high {
+  background: rgba(36, 161, 72, 0.12);
+  color: var(--status-ok);
+}
+.conf_medium {
+  background: rgba(241, 194, 27, 0.12);
+  color: var(--status-warn);
+}
+.conf_low {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.desc {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+// ── Loading skeleton ────────────────────────────────────────────
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 3px;
+}
+
+.skelTag { width: 30%; height: 14px; margin-bottom: 8px; }
+.skelTitle { width: 70%; height: 12px; margin-bottom: 6px; }
+.skelDesc { width: 100%; height: 9px; margin-bottom: 4px; }
+.skelDescShort { width: 60%; height: 9px; }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

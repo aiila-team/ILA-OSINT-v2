@@ -1,0 +1,230 @@
+// src/components/geoint/LayerControlPanel/LayerControlPanel.module.scss
+
+$mono: var(--font-mono, 'IBM Plex Mono', monospace);
+$panel-bg: var(--panel-bg-solid, #060d1c);
+$border: var(--panel-border, rgba(0,163,199,0.18));
+$accent: var(--accent, #00a3c7);
+$text-primary: var(--text-primary, #e0f0ff);
+$text-secondary: var(--text-secondary, rgba(160,200,230,0.7));
+$text-muted: var(--text-muted, rgba(100,150,190,0.45));
+
+.panel {
+  height: 100%;
+  background: $panel-bg;
+  border-right: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.collapseBtn {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 36px;
+  background: $panel-bg;
+  border: 1px solid $border;
+  border-left: none;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  border-radius: 0 3px 3px 0;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: $accent;
+    background: var(--panel-hover, rgba(0,163,199,0.06));
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+}
+
+.headerLabel {
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  color: $text-muted;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.headerCount {
+  font-family: $mono;
+  font-size: 9px;
+  color: $accent;
+  padding: 1px 5px;
+  border: 1px solid var(--panel-border-strong, rgba(0,163,199,0.32));
+  border-radius: 2px;
+}
+
+.accordionWrap {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $border transparent;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $border; border-radius: 2px; }
+}
+
+// Carbon accordion overrides
+.accordion {
+  :global(.cds--accordion__item) {
+    border-top: 1px solid $border;
+    border-bottom: none;
+  }
+
+  :global(.cds--accordion__heading) {
+    background: transparent;
+    padding: 8px 12px;
+    min-height: 36px;
+
+    &:hover {
+      background: var(--panel-hover);
+    }
+  }
+
+  :global(.cds--accordion__arrow) {
+    fill: $text-muted;
+  }
+
+  :global(.cds--accordion__content) {
+    padding: 0 0 4px;
+  }
+}
+
+.accordionItem {
+  &:last-child {
+    border-bottom: 1px solid $border;
+  }
+}
+
+.groupTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 700;
+  color: $text-secondary;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.groupIcon {
+  color: $accent;
+  display: flex;
+  align-items: center;
+}
+
+.groupCount {
+  margin-left: auto;
+  margin-right: 8px;
+  font-size: 8px;
+  color: $text-muted;
+  font-weight: 400;
+}
+
+.layerList {
+  padding: 0 12px 4px;
+}
+
+.layerRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0,163,199,0.06);
+
+  &:last-child { border-bottom: none; }
+}
+
+.layerDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.layerLabel {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-secondary;
+  flex: 1;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+
+.layerLabelOff {
+  color: $text-muted;
+}
+
+.toggle {
+  flex-shrink: 0;
+  margin-left: auto;
+
+  :global(.cds--toggle__switch) {
+    margin: 0;
+  }
+}
+
+// Legend
+.legend {
+  padding: 10px 12px;
+  border-top: 1px solid $border;
+  flex-shrink: 0;
+}
+
+.legendTitle {
+  font-family: $mono;
+  font-size: 8px;
+  color: $text-muted;
+  letter-spacing: 0.14em;
+  margin-bottom: 7px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+}
+
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-family: $mono;
+  font-size: 9px;
+  color: $text-muted;
+  letter-spacing: 0.06em;
+}

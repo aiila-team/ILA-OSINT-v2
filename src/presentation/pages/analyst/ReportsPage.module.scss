@@ -1,0 +1,683 @@
+// src/presentation/pages/analyst/ReportsPage.module.scss
+// ILA OSINT — Reports Module styles
+// Dark intelligence theme · Carbon Design System · Framer Motion
+
+// ─────────────────────────────────────────────────────────────────
+// Local tokens (mirrors AlertInboxPage pattern)
+// ─────────────────────────────────────────────────────────────────
+
+$bg-deep:       #080f1e;
+$bg-panel:      #0a1628;
+$bg-elevated:   #0d1f35;
+$bg-hover:      rgba(0, 163, 199, 0.04);
+$accent:        #00a3c7;
+$accent-dim:    rgba(0, 163, 199, 0.18);
+$border:        rgba(255, 255, 255, 0.07);
+$border-light:  rgba(255, 255, 255, 0.04);
+$text-primary:  rgba(255, 255, 255, 0.82);
+$text-secondary:rgba(255, 255, 255, 0.45);
+$text-muted:    rgba(255, 255, 255, 0.22);
+$font-mono:     var(--font-mono, 'IBM Plex Mono', monospace);
+$font-sans:     var(--font-sans, 'IBM Plex Sans', sans-serif);
+
+// ─────────────────────────────────────────────────────────────────
+// Page layout
+// ─────────────────────────────────────────────────────────────────
+
+.layout {
+  display:        flex;
+  flex-direction: column;
+  height:         100%;
+  overflow-y:     auto;
+  overflow-x:     hidden;
+  gap:            0;
+  position:       relative;
+
+  scrollbar-width: thin;
+  scrollbar-color: $accent-dim transparent;
+
+  &::-webkit-scrollbar      { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: $accent-dim; border-radius: 2px; }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Header right slot
+// ─────────────────────────────────────────────────────────────────
+
+.headerActions {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+
+  :global(.cds--btn--ghost) {
+    font-family:    $font-mono;
+    font-size:      0.65rem;
+    letter-spacing: 0.06em;
+    color:          var(--text-secondary);
+    min-height:     unset;
+    height:         28px;
+
+    &:hover { color: var(--text-primary); }
+  }
+}
+
+.statChip {
+  font-family:    $font-mono;
+  font-size:      0.62rem;
+  letter-spacing: 0.07em;
+  color:          $text-secondary;
+  background:     $bg-elevated;
+  border:         1px solid $border;
+  border-radius:  2px;
+  padding:        2px 8px;
+}
+
+.liveDot {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  background:    var(--status-ok);
+  animation:     livePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1;    }
+  50%       { opacity: 0.3; }
+}
+
+.liveLabel {
+  font-family:    $font-mono;
+  font-size:      0.58rem;
+  letter-spacing: 0.12em;
+  color:          var(--status-ok);
+  font-weight:    700;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Toast
+// ─────────────────────────────────────────────────────────────────
+
+.toastWrap {
+  position:  sticky;
+  top:       0;
+  z-index:   100;
+  padding:   0.5rem 1rem;
+
+  :global(.cds--toast-notification) {
+    background:    $bg-elevated !important;
+    border:        1px solid var(--status-ok) !important;
+    border-radius: 3px !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// STEP 1 — Template selection
+// ─────────────────────────────────────────────────────────────────
+
+.selectStep {
+  padding: 1.25rem 1rem;
+}
+
+.selectHint {
+  font-size:     0.72rem;
+  color:         $text-secondary;
+  margin-bottom: 1.25rem;
+  font-family:   $font-sans;
+  line-height:   1.5;
+}
+
+.templateGrid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   0.75rem;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+}
+
+.templateTile {
+  background:    $bg-elevated;
+  border:        1px solid $border;
+  border-radius: 4px;
+  padding:       1.25rem 1rem;
+  cursor:        pointer;
+  display:       flex;
+  flex-direction:column;
+  gap:           0.5rem;
+  transition:    border-color var(--transition), background var(--transition);
+
+  &:hover {
+    border-color: $accent-dim;
+    background:   rgba(0, 163, 199, 0.05);
+  }
+}
+
+.tileIcon {
+  color: $accent;
+  margin-bottom: 0.25rem;
+
+  :global(svg) { opacity: 0.85; }
+}
+
+.tileName {
+  font-family:    $font-mono;
+  font-size:      0.68rem;
+  font-weight:    700;
+  letter-spacing: 0.1em;
+  color:          $text-primary;
+}
+
+.tileDesc {
+  font-size:   0.7rem;
+  color:       $text-secondary;
+  font-family: $font-sans;
+  line-height: 1.5;
+  flex:        1;
+}
+
+.tileFooter {
+  margin-top: 0.25rem;
+
+  :global(.cds--tag) {
+    font-family:    $font-mono !important;
+    font-size:      0.58rem !important;
+    letter-spacing: 0.05em !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// STEP 2 — Configure + Preview layout
+// ─────────────────────────────────────────────────────────────────
+
+.configureStep {
+  display:    flex;
+  flex:       1;
+  gap:        0;
+  min-height: 640px;
+  border-top: 1px solid $border;
+}
+
+// ── Config panel (left 40%) ───────────────────────────────────────
+
+.configPanel {
+  width:          40%;
+  min-width:      320px;
+  border-right:   1px solid $border;
+  display:        flex;
+  flex-direction: column;
+  background:     $bg-panel;
+}
+
+.configHeader {
+  display:      flex;
+  align-items:  flex-start;
+  gap:          0.75rem;
+  padding:      1rem;
+  border-bottom:1px solid $border;
+  background:   $bg-deep;
+}
+
+.configHeaderIcon {
+  color:      $accent;
+  flex-shrink:0;
+  opacity:    0.8;
+}
+
+.configHeaderName {
+  font-family:    $font-mono;
+  font-size:      0.68rem;
+  font-weight:    700;
+  letter-spacing: 0.1em;
+  color:          $text-primary;
+  margin-bottom:  2px;
+}
+
+.configHeaderDesc {
+  font-size:   0.67rem;
+  color:       $text-secondary;
+  font-family: $font-sans;
+  line-height: 1.4;
+}
+
+.configForm {
+  flex:       1;
+  overflow-y: auto;
+  padding:    1rem;
+  display:    flex;
+  flex-direction: column;
+  gap:        1rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: $accent-dim transparent;
+
+  // Carbon form overrides
+  :global(.cds--label) {
+    font-family:    $font-mono !important;
+    font-size:      0.6rem !important;
+    letter-spacing: 0.07em !important;
+    text-transform: uppercase !important;
+    color:          $text-secondary !important;
+    margin-bottom:  4px !important;
+  }
+
+  :global(.cds--text-input),
+  :global(.cds--select-input),
+  :global(.cds--combo-box .cds--text-input),
+  :global(.cds--multi-select .cds--text-input),
+  :global(.cds--date-picker__input) {
+    background:   $bg-elevated !important;
+    border-color: $border !important;
+    color:        $text-primary !important;
+    font-family:  $font-mono !important;
+    font-size:    0.72rem !important;
+
+    &:focus {
+      border-color: $accent !important;
+      outline:      none !important;
+      box-shadow:   0 0 0 1px rgba(0,163,199,0.25) !important;
+    }
+  }
+
+  :global(.cds--date-picker) { width: 100%; }
+  :global(.cds--date-picker-container) { width: 100%; }
+  :global(.cds--date-picker__input) { width: 100%; }
+}
+
+// ── Section builder (custom template) ────────────────────────────
+
+.sectionBuilder {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.75rem;
+}
+
+.sectionBuilderHdr {
+  font-family:    $font-mono;
+  font-size:      0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color:          $text-secondary;
+}
+
+.sectionHint {
+  font-size:    0.67rem;
+  color:        $text-muted;
+  margin-bottom:0.5rem;
+  font-family:  $font-sans;
+}
+
+.addSectionRow {
+  display:     flex;
+  gap:         0.5rem;
+  align-items: flex-end;
+
+  :global(.cds--form-item) { flex: 1; }
+}
+
+// ── Export bar ────────────────────────────────────────────────────
+
+.exportBar {
+  padding:      1rem;
+  border-top:   1px solid $border;
+  background:   $bg-deep;
+  display:      flex;
+  flex-direction:column;
+  gap:          0.5rem;
+}
+
+.generateBtn {
+  width: 100%;
+
+  :global(.cds--inline-loading) {
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    font-family: $font-mono;
+    font-size: 0.65rem;
+  }
+
+  :global(.cds--btn__icon),
+  svg { margin-right: 6px; vertical-align: -2px; }
+}
+
+.exportSecondary {
+  display:  flex;
+  gap:      0.4rem;
+  flex-wrap:wrap;
+
+  :global(.cds--btn) {
+    font-family:    $font-mono !important;
+    font-size:      0.58rem !important;
+    letter-spacing: 0.06em !important;
+    min-height:     unset !important;
+    height:         28px !important;
+    padding:        0 0.7rem !important;
+    color:          $text-secondary !important;
+
+    &:hover { color: $text-primary !important; }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Live preview panel (right 60%)
+// ─────────────────────────────────────────────────────────────────
+
+.previewPanel {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  background:     #060e1a;
+  overflow-y:     auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: $accent-dim transparent;
+}
+
+.previewLabel {
+  font-family:    $font-mono;
+  font-size:      0.6rem;
+  letter-spacing: 0.12em;
+  color:          $text-muted;
+  padding:        0.65rem 1.25rem 0.5rem;
+  border-bottom:  1px solid $border-light;
+  flex-shrink:    0;
+}
+
+.previewDoc {
+  flex:        1;
+  margin:      1rem;
+  background:  #080f1e;
+  border:      1px solid $border;
+  border-radius:3px;
+  overflow:    hidden;
+  display:     flex;
+  flex-direction:column;
+  min-height:  560px;
+}
+
+.classificationBanner {
+  text-align:     center;
+  font-family:    $font-mono;
+  font-size:      0.65rem;
+  font-weight:    700;
+  letter-spacing: 0.2em;
+  padding:        5px 0;
+}
+
+.bannerGreen {
+  background: rgba(36, 161, 72, 0.15);
+  color:      #24a148;
+  border-bottom: 1px solid rgba(36,161,72,0.3);
+}
+
+.bannerRed {
+  background: rgba(250, 77, 86, 0.15);
+  color:      #fa4d56;
+  border-bottom: 1px solid rgba(250,77,86,0.3);
+}
+
+.docHeader {
+  padding:       1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid $border-light;
+}
+
+.docOrg {
+  font-family:    $font-mono;
+  font-size:      0.58rem;
+  letter-spacing: 0.15em;
+  color:          $text-muted;
+  text-transform: uppercase;
+  margin-bottom:  0.5rem;
+}
+
+.docTitle {
+  font-family:    $font-mono;
+  font-size:      1rem;
+  font-weight:    700;
+  color:          $text-primary;
+  letter-spacing: 0.04em;
+  margin-bottom:  0.5rem;
+  line-height:    1.3;
+}
+
+.docMeta {
+  display:     flex;
+  gap:         0.5rem;
+  align-items: center;
+  font-family: $font-mono;
+  font-size:   0.6rem;
+  color:       $text-secondary;
+  flex-wrap:   wrap;
+}
+
+.docBody {
+  flex:    1;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap:     1rem;
+}
+
+.docSection {}
+
+.docSectionTitle {
+  font-family:    $font-mono;
+  font-size:      0.6rem;
+  font-weight:    700;
+  letter-spacing: 0.15em;
+  color:          $accent;
+  border-bottom:  1px solid $border-light;
+  padding-bottom: 4px;
+  margin-bottom:  6px;
+}
+
+.docSectionBody {
+  font-family: $font-sans;
+  font-size:   0.72rem;
+  color:       $text-secondary;
+  line-height: 1.65;
+}
+
+.docEntityList {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+
+.docEntityRow {
+  display:     flex;
+  gap:         0.75rem;
+  font-family: $font-mono;
+  font-size:   0.65rem;
+  color:       $text-secondary;
+  padding:     3px 0;
+  border-bottom: 1px solid $border-light;
+}
+
+.docEntityId {
+  color:  $accent;
+  flex-shrink: 0;
+}
+
+.docPlaceholder {
+  font-family: $font-sans;
+  font-size:   0.68rem;
+  color:       $text-muted;
+  font-style:  italic;
+}
+
+.docTimelinePlaceholder {
+  background:    rgba(0,163,199,0.04);
+  border:        1px dashed $accent-dim;
+  border-radius: 2px;
+  padding:       0.75rem;
+  font-family:   $font-mono;
+  font-size:     0.6rem;
+  color:         $text-muted;
+  text-align:    center;
+  letter-spacing:0.05em;
+}
+
+.docFooter {
+  display:        flex;
+  justify-content:space-between;
+  padding:        0.75rem 1.5rem;
+  border-top:     1px solid $border-light;
+  font-family:    $font-mono;
+  font-size:      0.58rem;
+  color:          $text-muted;
+  letter-spacing: 0.07em;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Report history table
+// ─────────────────────────────────────────────────────────────────
+
+.historySection {
+  flex-shrink: 0;
+  border-top:  1px solid $border;
+  background:  $bg-deep;
+}
+
+.historyToggle {
+  width:       100%;
+  background:  transparent;
+  border:      none;
+  padding:     0.75rem 1rem;
+  display:     flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor:      pointer;
+  color:       $text-secondary;
+  border-bottom: 1px solid $border-light;
+
+  &:hover { background: $bg-hover; }
+}
+
+.historyToggleLabel {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  font-family: $font-mono;
+  font-size:   0.62rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+
+.historyCount {
+  background:    $bg-elevated;
+  border:        1px solid $border;
+  border-radius: 2px;
+  padding:       1px 6px;
+  font-size:     0.6rem;
+  color:         $accent;
+  font-weight:   700;
+}
+
+.tableContainer {
+  :global(.cds--data-table-container) {
+    background: $bg-panel !important;
+  }
+}
+
+.reportTable {
+  background: $bg-panel !important;
+
+  :global(.cds--data-table) {
+    background: $bg-panel !important;
+  }
+
+  :global(thead tr) {
+    background: $bg-deep !important;
+  }
+}
+
+.th {
+  font-family:    $font-mono !important;
+  font-size:      0.58rem !important;
+  letter-spacing: 0.09em !important;
+  color:          $text-secondary !important;
+  background:     $bg-deep !important;
+  border-bottom:  1px solid $border !important;
+  text-transform: uppercase;
+}
+
+.tableRow {
+  background: $bg-panel !important;
+  transition: background var(--transition);
+
+  &:hover { background: $bg-hover !important; }
+
+  :global(td) {
+    border-bottom:  1px solid $border-light !important;
+    font-size:      0.68rem !important;
+    color:          $text-primary !important;
+    font-family:    $font-sans !important;
+    vertical-align: middle !important;
+    padding:        6px 12px !important;
+  }
+}
+
+.tdId {
+  font-family: $font-mono !important;
+  color:       $accent !important;
+  font-size:   0.65rem !important;
+  font-weight: 700 !important;
+}
+
+.tdTitle {
+  max-width:     200px;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+  white-space:   nowrap;
+}
+
+.tdMono {
+  font-family: $font-mono !important;
+  font-size:   0.6rem !important;
+  color:       $text-secondary !important;
+}
+
+.typeLabel {
+  font-family:    $font-mono;
+  font-size:      0.58rem;
+  letter-spacing: 0.05em;
+  color:          $text-secondary;
+  text-transform: uppercase;
+}
+
+.rowActions {
+  display:     flex;
+  align-items: center;
+  gap:         2px;
+
+  :global(.cds--btn) {
+    min-height: unset !important;
+    height:     24px !important;
+    width:      24px !important;
+    padding:    0 !important;
+  }
+}
+
+.loadingCell {
+  padding: 1rem !important;
+  text-align: center !important;
+}
+
+.pagination {
+  background: $bg-panel !important;
+  border-top: 1px solid $border !important;
+
+  :global(.cds--pagination) {
+    background: $bg-panel !important;
+    border-top: none !important;
+    color:      $text-secondary !important;
+    font-family: $font-mono !important;
+    font-size:  0.62rem !important;
+  }
+
+  :global(.cds--select-input) {
+    background: $bg-elevated !important;
+    color:      $text-primary !important;
+    font-family: $font-mono !important;
+  }
+}

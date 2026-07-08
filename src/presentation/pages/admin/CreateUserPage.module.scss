@@ -1,0 +1,670 @@
+// src/presentation/pages/admin/CreateUserPage.module.scss
+// ILA OSINT — Create User Page Styles
+// Dark intelligence theme · IBM Plex Mono · Carbon token overrides
+
+// ─────────────────────────────────────────────────────────────────
+// Page shell
+// ─────────────────────────────────────────────────────────────────
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem 1.5rem 2rem;
+  background: var(--bg-base);
+  position: relative;
+  overflow-x: hidden;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Toast (fixed top-right)
+// ─────────────────────────────────────────────────────────────────
+
+.toastAnchor {
+  position: fixed;
+  top: 20px;
+  right: 22px;
+  z-index: 9000;
+  pointer-events: none;
+
+  > * { pointer-events: all; }
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #081a10;
+  border: 1px solid #0f4a28;
+  border-radius: 3px;
+  padding: 11px 14px;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.toastIcon {
+  fill: #00c97a;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.toastBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.toastTitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #00c97a;
+  letter-spacing: 0.1em;
+  margin: 0 0 2px;
+}
+
+.toastSub {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #2d5a3a;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.toastClose {
+  background: transparent;
+  border: none;
+  color: #2d5a3a;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color var(--transition);
+
+  &:hover { color: #00c97a; }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Page header
+// ─────────────────────────────────────────────────────────────────
+
+.pageHeader {
+  margin-bottom: 1.1rem;
+}
+
+.breadcrumb {
+  margin-bottom: 0.5rem;
+
+  :global(.cds--breadcrumb-item) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.12em !important;
+    color: #2d4455 !important;
+  }
+
+  :global(.cds--breadcrumb-item--current .cds--link) {
+    color: #3a5a6a !important;
+    cursor: default !important;
+
+    &:hover { text-decoration: none !important; }
+  }
+
+  :global(.cds--link) {
+    color: #2d4455 !important;
+    &:hover { color: var(--accent) !important; }
+  }
+
+  :global(.cds--breadcrumb-item::after) {
+    color: #2d4455 !important;
+  }
+}
+
+.pageTitle {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #c8dce8;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.3rem;
+  line-height: 1.2;
+}
+
+.pageSubtitle {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #3a5568;
+  letter-spacing: 0.06em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Inline notification
+// ─────────────────────────────────────────────────────────────────
+
+.inlineNotif {
+  margin-bottom: 0.9rem;
+
+  :global(.cds--inline-notification) {
+    background: rgba(197, 48, 48, 0.08) !important;
+    border-color: rgba(197, 48, 48, 0.3) !important;
+    border-radius: 2px !important;
+  }
+
+  :global(.cds--inline-notification__title),
+  :global(.cds--inline-notification__subtitle) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.05em !important;
+    color: #ff8080 !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Form
+// ─────────────────────────────────────────────────────────────────
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Grid
+// ─────────────────────────────────────────────────────────────────
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Cards
+// ─────────────────────────────────────────────────────────────────
+
+.card {
+  background: #0d1e30;
+  border: 1px solid #1a2e44;
+  border-radius: 3px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardFull {
+  grid-column: span 2;
+
+  @media (max-width: 1024px) {
+    grid-column: span 1;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid #162235;
+
+  svg { fill: var(--accent); flex-shrink: 0; }
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+}
+
+.cardTitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #4a9ab8;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Fields
+// ─────────────────────────────────────────────────────────────────
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.field {
+  margin-bottom: 0.65rem;
+
+  // ── Carbon TextInput overrides ──
+  :global(.cds--label) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.16em !important;
+    color: #2d4455 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px !important;
+  }
+
+  :global(.cds--text-input),
+  :global(.cds--password-input) {
+    background: #080f1a !important;
+    border: none !important;
+    border-bottom: 1px solid #1a2535 !important;
+    border-radius: 2px 2px 0 0 !important;
+    color: #a8c0d0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.75rem !important;
+    height: 32px !important;
+    padding: 0 36px 0 9px !important;
+    letter-spacing: 0.04em;
+
+    &::placeholder {
+      color: #2d4455 !important;
+      font-size: 0.7rem !important;
+    }
+
+    &:focus {
+      border-bottom-color: var(--accent) !important;
+      background: #080f1f !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  :global(.cds--text-input--invalid),
+  :global(.cds--password-input--invalid) {
+    border-bottom-color: #c53030 !important;
+    background: #120808 !important;
+  }
+
+  :global(.cds--form-requirement) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.07em !important;
+    color: #c53030 !important;
+    margin-top: 4px !important;
+  }
+
+  // ── Select overrides ──
+  :global(.cds--select-input) {
+    background: #080f1a !important;
+    border: none !important;
+    border-bottom: 1px solid #1a2535 !important;
+    border-radius: 2px 2px 0 0 !important;
+    color: #a8c0d0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.72rem !important;
+    height: 32px !important;
+
+    &:focus {
+      border-bottom-color: var(--accent) !important;
+      outline: none !important;
+    }
+  }
+
+  :global(.cds--select__arrow) {
+    fill: #3a5568 !important;
+  }
+
+  :global(.cds--select-input option) {
+    background: #0d1e30 !important;
+    color: #a8c0d0 !important;
+    font-family: var(--font-mono) !important;
+  }
+
+  // ── Password input show/hide button ──
+  :global(.cds--btn--icon-only.cds--password-input__visibility-toggle) {
+    background: transparent !important;
+    border: none !important;
+    color: #3a5568 !important;
+
+    &:hover { background: rgba(0, 163, 199, 0.06) !important; color: var(--accent) !important; }
+
+    svg { fill: currentColor !important; }
+  }
+}
+
+.fieldWrap {
+  position: relative;
+  margin-bottom: 0.65rem;
+
+  > :global(.cds--text-input-wrapper),
+  > :global(.cds--password-input-wrapper) {
+    margin-bottom: 0 !important;
+  }
+}
+
+// ── Valid / Error icons ───────────────────────────────────────────
+
+.validIcon {
+  position: absolute;
+  right: 36px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+
+  svg { fill: var(--status-ok); }
+}
+
+.errorIcon {
+  position: absolute;
+  right: 36px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+
+  svg { fill: var(--status-danger); }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Security toggles
+// ─────────────────────────────────────────────────────────────────
+
+.divider {
+  height: 1px;
+  background: #162235;
+  margin: 0.6rem 0;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #101c28;
+
+  &:last-of-type { border-bottom: none; }
+}
+
+.toggleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.toggleLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #8aaabb;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.toggleDesc {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: #2d4455;
+  letter-spacing: 0.04em;
+}
+
+.toggle {
+  flex-shrink: 0;
+
+  :global(.cds--toggle__switch) {
+    background: #1a2535 !important;
+
+    &::before { background: #2d4455 !important; }
+  }
+
+  :global(.cds--toggle__input:checked ~ .cds--toggle__label) {
+    :global(.cds--toggle__switch) {
+      background: #00445a !important;
+      &::before { background: var(--accent) !important; }
+    }
+  }
+
+  :global(.cds--toggle__label) {
+    margin: 0 !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Role cards
+// ─────────────────────────────────────────────────────────────────
+
+.subLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: #2d4455;
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+}
+
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.roleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: #080f1a;
+  border: 1px solid #1a2535;
+  border-radius: 3px;
+  padding: 0.85rem 0.6rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+
+  &:hover:not(.roleCardActive) {
+    border-color: rgba(0, 180, 216, 0.3);
+    background: rgba(0, 180, 216, 0.04);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.roleCardActive {
+  border-color: var(--accent) !important;
+  background: #081a28 !important;
+
+  .roleIcon svg { fill: var(--accent) !important; }
+  .roleName { color: var(--accent) !important; }
+  .roleDesc  { color: #2d5568 !important; }
+}
+
+.roleIcon {
+  svg { fill: #2d4455; transition: fill var(--transition); }
+}
+
+.roleName {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #3a5568;
+  letter-spacing: 0.1em;
+  transition: color var(--transition);
+}
+
+.roleDesc {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: #1e3040;
+  letter-spacing: 0.04em;
+  transition: color var(--transition);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Access level buttons
+// ─────────────────────────────────────────────────────────────────
+
+.accessRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.accessBtn {
+  padding: 5px 18px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border: 1px solid #1a2535;
+  color: #3a5568;
+  background: #080f1a;
+  transition: all var(--transition);
+
+  &:hover {
+    border-color: rgba(0, 180, 216, 0.3);
+    color: #5a7a8a;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+// Active states
+.accessStandard {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background: #081a28 !important;
+}
+
+.accessElevated {
+  border-color: #d4a017 !important;
+  color: #d4a017 !important;
+  background: #1a1200 !important;
+}
+
+.accessRestricted {
+  border-color: #c53030 !important;
+  color: #c53030 !important;
+  background: #180808 !important;
+}
+
+.accessDesc {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #3a5568;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  padding: 0.5rem 0.7rem;
+  background: #080f1a;
+  border: 1px solid #1a2535;
+  border-radius: 2px;
+  border-left: 2px solid #1a2535;
+}
+
+.accessDescWarn {
+  color: #a07810;
+}
+
+.accessDescDanger {
+  color: #9a2020;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Action bar
+// ─────────────────────────────────────────────────────────────────
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid #1a2535;
+  margin-top: 0.1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.actionLeft {
+  flex: 1;
+}
+
+.auditNote {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #2d4455;
+  letter-spacing: 0.05em;
+}
+
+.actionRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actionBtn {
+  font-family: var(--font-mono) !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em !important;
+  min-height: 34px !important;
+
+  // Ghost button
+  &:global(.cds--btn--ghost) {
+    color: #3a5568 !important;
+    border-color: #1a2535 !important;
+
+    &:hover {
+      background: rgba(197, 48, 48, 0.06) !important;
+      color: #c53030 !important;
+      border-color: rgba(197, 48, 48, 0.3) !important;
+    }
+
+    svg { fill: currentColor !important; }
+  }
+
+  // Secondary button (save draft)
+  &:global(.cds--btn--secondary) {
+    background: #0d1e30 !important;
+    border-color: #1a2e44 !important;
+    color: #4a6274 !important;
+
+    &:hover {
+      background: #122030 !important;
+      color: #8aa4b8 !important;
+    }
+
+    svg { fill: currentColor !important; }
+  }
+}
+
+.actionBtnPrimary {
+  // Primary — CREATE USER
+  background: #00394f !important;
+  border-color: var(--accent) !important;
+  color: #c8dce8 !important;
+  font-weight: 600 !important;
+
+  &:hover:not(:disabled) {
+    background: #004a65 !important;
+    border-color: var(--accent-bright) !important;
+  }
+
+  &:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+
+  svg { fill: var(--accent) !important; }
+}

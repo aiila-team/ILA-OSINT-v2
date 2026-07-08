@@ -1,0 +1,199 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+  z-index: 200;
+}
+
+.backdropVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card {
+  width: min(520px, calc(100% - 40px));
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+  overflow: hidden;
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.cardVisible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.headerStrip {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.96);
+}
+
+.logoBlock {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.logoIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 163, 199, 0.08);
+  border-radius: 14px;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.platformName {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.platformSub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.headerMeta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.restricted {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fa4d56;
+}
+
+.closeBtn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.sessionBar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+}
+
+.dimLabel {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.48);
+  text-transform: uppercase;
+}
+
+.body {
+  padding: 24px 20px 20px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.subtitle {
+  margin: 0 0 22px;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.5;
+}
+
+.fields {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.fieldWrap {
+  display: block;
+}
+
+.carbonInput {
+  width: 100%;
+}
+
+.authButton {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.securityNotice {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  margin: 18px 20px 20px;
+  border-radius: 14px;
+  background: rgba(0, 163, 199, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.securityIcon {
+  flex-shrink: 0;
+}
+
+.securityText {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 163, 199, 0.55), transparent);
+  animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+.corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(0, 163, 199, 0.34);
+}
+
+.cornerTL { top: 0; left: 0; border-right: none; border-bottom: none; }
+.cornerTR { top: 0; right: 0; border-left: none; border-bottom: none; }
+.cornerBL { bottom: 0; left: 0; border-right: none; border-top: none; }
+.cornerBR { bottom: 0; right: 0; border-left: none; border-top: none; }

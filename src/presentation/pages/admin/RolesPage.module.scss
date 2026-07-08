@@ -1,0 +1,404 @@
+// src/presentation/pages/admin/RolesPage.module.scss
+// ILA OSINT — Role & Permission Control Matrix
+// Dark cyber-intelligence theme matching the HTML reference design.
+
+// ── Design tokens (mirrors geoint-tokens.scss + variables.scss) ───
+
+$bg-page:       #060c18;
+$bg-panel:      #0d1e30;
+$bg-panel-dark: #081420;
+$bg-row-hover:  #0a1828;
+$bg-section:    #081420;
+
+$border:        #1a2e44;
+$border-soft:   #0f1c2a;
+$border-accent: #00b4d8;
+
+$accent:        #00b4d8;
+$accent-dim:    #00394f;
+
+$text-primary:   #c8dce8;
+$text-secondary: #8aaabb;
+$text-muted:     #3a5568;
+$text-dim:       #2d4455;
+
+$mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+// ── Container ─────────────────────────────────────────────────────
+
+.container {
+  padding: 20px 22px;
+  font-family: $mono;
+  color: $text-primary;
+  min-height: 100%;
+  background: $bg-page;
+}
+
+// ── Header ────────────────────────────────────────────────────────
+
+.header {
+  margin-bottom: 18px;
+}
+
+.breadcrumb {
+  font-size: 9px;
+  color: $text-dim;
+  letter-spacing: 0.14em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+
+  span {
+    color: #3a5a6a;
+    margin: 0 4px;
+  }
+}
+
+.pageTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: $text-primary;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+}
+
+.pageSubtitle {
+  font-size: 10px;
+  color: $text-muted;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+// ── Tab bar ───────────────────────────────────────────────────────
+
+.tabBar {
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid $border;
+  margin-bottom: 0;
+  gap: 0;
+}
+
+.tab {
+  position: relative;
+  padding: 9px 20px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  color: $text-muted;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  &:hover {
+    color: $text-secondary;
+    background: rgba(0, 180, 216, 0.03);
+  }
+}
+
+.tabActive {
+  color: $accent;
+  border-bottom-color: $accent;
+  background: rgba(8, 24, 40, 0.6);
+}
+
+.tabDirtyDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d4a017;
+  flex-shrink: 0;
+}
+
+// ── Tab panel ────────────────────────────────────────────────────
+
+.tabPanel {
+  display: block;
+}
+
+// ── Matrix panel ──────────────────────────────────────────────────
+
+.matrixPanel {
+  background: $bg-panel;
+  border: 1px solid $border;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+
+// ── Toolbar ───────────────────────────────────────────────────────
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #162235;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Role pill
+
+.rolePill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #081828;
+  border: 1px solid $accent;
+  border-radius: 3px;
+  padding: 3px 10px;
+}
+
+.rolePillDot {
+  width: 6px;
+  height: 6px;
+  background: $accent;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rolePillText {
+  font-size: 9px;
+  color: $accent;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+// Unsaved tag
+.unsavedTag {
+  // Carbon Tag override to match design
+  background: #1a1400 !important;
+  border: 1px solid #6b4f00 !important;
+  border-radius: 3px !important;
+  color: #d4a017 !important;
+  font-size: 9px !important;
+  letter-spacing: 0.12em !important;
+  font-family: $mono !important;
+  font-weight: 500 !important;
+}
+
+// Buttons
+.resetBtn {
+  font-family: $mono !important;
+  font-size: 9px !important;
+  letter-spacing: 0.12em !important;
+  color: $text-muted !important;
+  border-color: $border !important;
+  padding: 5px 12px !important;
+  min-height: unset !important;
+
+  &:hover {
+    color: $text-secondary !important;
+    background: rgba(0, 180, 216, 0.04) !important;
+  }
+}
+
+.saveBtn {
+  font-family: $mono !important;
+  font-size: 9px !important;
+  letter-spacing: 0.14em !important;
+  font-weight: 600 !important;
+  min-height: unset !important;
+  background: $accent-dim !important;
+  border-color: $accent !important;
+  color: $text-primary !important;
+
+  &:hover:not([disabled]) {
+    background: #004a68 !important;
+  }
+
+  &[disabled] {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+  }
+}
+
+// ── Table ─────────────────────────────────────────────────────────
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+// Table head
+.thead {
+  background: $bg-panel-dark;
+  border-bottom: 1px solid $border;
+}
+
+.thModule {
+  text-align: left;
+  padding: 10px 0 10px 16px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: $text-muted;
+  font-weight: 500;
+  min-width: 200px;
+  text-transform: uppercase;
+}
+
+.thPerm {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: $text-muted;
+  font-weight: 500;
+  width: 110px;
+  text-transform: uppercase;
+}
+
+// Section divider row
+.sectionDivider {
+  background: $bg-section;
+  border-bottom: 1px solid $border;
+
+  td {
+    padding: 4px 0 4px 16px;
+    color: $text-dim;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+// Data rows
+.row {
+  border-bottom: 1px solid $border-soft;
+  transition: background 0.12s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover td {
+    background: $bg-row-hover;
+  }
+}
+
+// Module cell (first column)
+.moduleCell {
+  text-align: left;
+  padding: 10px 0 10px 16px;
+  vertical-align: middle;
+}
+
+.moduleWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.moduleIcon {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  background: $bg-panel-dark;
+  border: 1px solid #162235;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a7a8a;
+  flex-shrink: 0;
+}
+
+.moduleName {
+  color: $text-secondary;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.moduleSub {
+  color: $text-dim;
+  font-size: 9px;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+// Permission cell (toggle columns)
+.cell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 0;
+  width: 110px;
+}
+
+.cellInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.cellLocked {
+  opacity: 0.7;
+}
+
+.lockIcon {
+  color: $text-dim;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+// ── Carbon Toggle overrides ────────────────────────────────────────
+// Match the custom toggle style from the HTML reference
+
+.toggle {
+  // Carbon Toggle small — override colours to match dark theme
+
+  :global(.cds--toggle__switch) {
+    background: #1a2535;
+    transition: background 0.2s;
+
+    &::before {
+      background: #2d4455;
+      transition: transform 0.2s, background 0.2s;
+    }
+  }
+
+  :global(.cds--toggle__switch--checked) {
+    background: #00445a;
+
+    &::before {
+      background: $accent;
+    }
+  }
+
+  // Disabled state (locked)
+  :global(.cds--toggle--disabled .cds--toggle__switch) {
+    background: #0f1c28;
+    cursor: not-allowed;
+
+    &::before {
+      background: #1e3040;
+    }
+  }
+
+  :global(.cds--toggle__label) {
+    display: none;
+  }
+}

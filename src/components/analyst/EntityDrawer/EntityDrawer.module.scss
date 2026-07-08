@@ -1,0 +1,636 @@
+// src/components/analyst/EntityDrawer/EntityDrawer.module.scss
+// ILA OSINT — Entity Drawer Styles
+
+// ── Backdrop ──────────────────────────────────────────────────────
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+// ── Overlay drawer panel (default mode) ──────────────────────────
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 910;
+  width: 420px;
+  max-width: 100vw;
+  background: var(--bg-sidebar);
+  border-left: 1px solid var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+// ── Inline mode (fills container — used by GraphAnalysisPage) ────
+// NEW: This is the only addition to your existing SCSS file.
+
+.drawerInline {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-sidebar);
+  overflow: hidden;
+}
+
+// ── Header ───────────────────────────────────────────────────────
+
+.drawerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.drawerTypeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 2px;
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-dim);
+  flex-shrink: 0;
+
+  svg {
+    fill: var(--accent);
+  }
+}
+
+.headerTitles {
+  min-width: 0;
+  flex: 1;
+}
+
+.drawerEntityName {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawerEntityId {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: 0.06em;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-hover);
+  }
+
+  svg {
+    fill: currentColor;
+  }
+}
+
+// ── Tab bar ──────────────────────────────────────────────────────
+
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem 0.9rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  transition: color var(--transition), border-color var(--transition);
+
+  svg {
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}
+
+.tabActive {
+  color: var(--accent-bright) !important;
+  border-bottom-color: var(--accent-bright);
+
+  svg {
+    fill: var(--accent-bright);
+  }
+}
+
+// ── Tab panel (scrollable) ────────────────────────────────────────
+
+.tabPanel {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+}
+
+.tabContent {
+  padding: 1rem;
+}
+
+// ── Description ──────────────────────────────────────────────────
+
+.description {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent-dim);
+  border-radius: 0 2px 2px 0;
+}
+
+// ── Structured list overrides ─────────────────────────────────────
+
+.structuredList {
+  margin-bottom: 1rem;
+
+  :global(.cds--structured-list) {
+    background: transparent;
+  }
+
+  :global(.cds--structured-list-th),
+  :global(.cds--structured-list-td) {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    background: transparent !important;
+  }
+
+  :global(.cds--structured-list-th) {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+.monoCell {
+  font-family: var(--font-mono) !important;
+  color: var(--accent) !important;
+}
+
+// ── Section label ─────────────────────────────────────────────────
+
+.section {
+  margin-top: 1rem;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+// ── Tag cloud ─────────────────────────────────────────────────────
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.drawerTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+
+// ── Connections ───────────────────────────────────────────────────
+
+.connectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.connectionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: border-color var(--transition), background var(--transition);
+
+  &:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-hover);
+  }
+}
+
+.connIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  background: var(--accent-faint);
+  flex-shrink: 0;
+
+  svg { fill: var(--accent); }
+}
+
+.connInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.connName {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.connMeta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.moreConnections {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent);
+  text-align: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+
+  &:hover { text-decoration: underline; }
+}
+
+.linkedSection {
+  margin-top: 1rem;
+}
+
+.linkedSectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.linkedSectionSummary {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.linkedGroup {
+  margin-bottom: 1rem;
+}
+
+.linkedGroupTitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.linkedGroupGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.linkedCard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.9rem;
+  background: var(--bg-elevated);
+  color: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.linkedCard:hover,
+.linkedCard:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 12px 22px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+
+.linkedCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.linkedCardTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.linkedCardTag {
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.linkedCardDetail {
+  margin: 0 0 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.linkedCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.linkedCardMeta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.linkedCardVerified {
+  padding: 0 0.35rem;
+}
+
+// ── Timeline ──────────────────────────────────────────────────────
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.tlLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.tlDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.sevCritical { background: #fa4d56; box-shadow: 0 0 6px rgba(250, 77, 86, 0.5); }
+.sevHigh     { background: #ff8389; }
+.sevMedium   { background: #f1c21b; }
+.sevInfo     { background: rgba(100, 150, 190, 0.45); }
+
+.tlLine {
+  width: 1px;
+  flex: 1;
+  background: var(--border);
+  margin: 4px 0;
+  min-height: 16px;
+}
+
+.tlContent {
+  padding-bottom: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.tlEvent {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+
+.tlMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tlSource {
+  font-family: var(--font-mono) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.06em !important;
+  color: var(--text-muted) !important;
+  border-color: var(--border) !important;
+}
+
+.tlTs {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+// ── Cases ─────────────────────────────────────────────────────────
+
+.caseList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.caseItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.caseTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.06em !important;
+}
+
+.caseStatus {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--status-ok);
+  letter-spacing: 0.07em;
+}
+
+// ── Notes ─────────────────────────────────────────────────────────
+
+.noteThread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.noteItem {
+  padding: 0.75rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  border-left: 2px solid var(--accent-dim);
+}
+
+.noteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.noteAuthor {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.noteTs {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.noteText {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+// ── Footer ────────────────────────────────────────────────────────
+
+.drawerFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-base);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  :global(.cds--btn) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.07em !important;
+    min-height: 32px !important;
+    padding: 0 0.75rem !important;
+  }
+
+  :global(.cds--btn--primary) {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+
+    &:hover {
+      background: var(--accent-bright) !important;
+    }
+  }
+
+  :global(.cds--btn--ghost) {
+    color: var(--text-secondary) !important;
+
+    &:hover {
+      background: var(--bg-hover) !important;
+      color: var(--text-primary) !important;
+    }
+  }
+}

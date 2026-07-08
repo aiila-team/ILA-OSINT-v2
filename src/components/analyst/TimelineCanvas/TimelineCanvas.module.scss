@@ -1,0 +1,209 @@
+// src/components/analyst/TimelineCanvas/TimelineCanvas.module.scss
+// ILA OSINT — vis-timeline deep overrides for intelligence dark theme
+// All vis-* selectors must be in :global{} since vis injects DOM
+// elements directly; they are never inside a CSS-modules scope.
+
+// ─────────────────────────────────────────────────────────────────
+// React-managed wrapper divs
+// ─────────────────────────────────────────────────────────────────
+
+.canvasWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-base);
+}
+
+.visContainer {
+  width: 100%;
+  height: 100%;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// vis-timeline global overrides
+// ─────────────────────────────────────────────────────────────────
+
+:global {
+
+  // ── Outer shell ─────────────────────────────────────────────
+  .vis-timeline {
+    border:      none !important;
+    background:  var(--bg-base) !important;
+    font-family: var(--font-sans) !important;
+  }
+
+  // ── Time axis (top ruler) ────────────────────────────────────
+  .vis-time-axis {
+    background:    var(--bg-sidebar) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  .vis-time-axis .vis-text {
+    color:          var(--text-muted) !important;
+    font-family:    var(--font-mono) !important;
+    font-size:      0.6rem !important;
+    letter-spacing: 0.05em;
+    padding:        2px 4px !important;
+  }
+
+  .vis-time-axis .vis-grid.vis-major {
+    border-color: var(--border) !important;
+  }
+
+  .vis-time-axis .vis-grid.vis-minor {
+    border-color: rgba(0, 163, 199, 0.05) !important;
+  }
+
+  // ── Panel borders ────────────────────────────────────────────
+  .vis-panel {
+    border:       none !important;
+    border-color: var(--border) !important;
+  }
+
+  .vis-center,
+  .vis-left,
+  .vis-right {
+    border-top: 1px solid var(--border) !important;
+  }
+
+  // ── Group labels (left lane headers) ────────────────────────
+  .vis-label {
+    background:    var(--bg-sidebar) !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-right:  1px solid var(--border) !important;
+    padding:       0 !important;
+  }
+
+  .vis-label .vis-inner {
+    padding:         0 !important;
+    display:         flex;
+    align-items:     center;
+    height:          100%;
+  }
+
+  .tl-group-label {
+    display:        flex;
+    flex-direction: column;
+    padding:        6px 10px;
+    gap:            2px;
+  }
+
+  .tl-group-name {
+    font-family:    var(--font-mono);
+    font-size:      0.65rem;
+    font-weight:    700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space:    nowrap;
+  }
+
+  .tl-group-id {
+    font-family:    var(--font-mono);
+    font-size:      0.55rem;
+    color:          var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  // ── Lane backgrounds ─────────────────────────────────────────
+  .vis-background .vis-group {
+    border-bottom: 1px solid rgba(0, 163, 199, 0.05) !important;
+  }
+
+  // ── Event items ──────────────────────────────────────────────
+  .vis-item {
+    border:        none !important;
+    border-radius: 2px !important;
+    cursor:        pointer !important;
+    font-family:   var(--font-mono) !important;
+    font-size:     0.6rem !important;
+    padding:       2px 6px !important;
+    transition:    box-shadow 0.12s ease, opacity 0.12s ease !important;
+
+    &.vis-selected {
+      border: none !important;
+    }
+
+    &:hover {
+      opacity: 0.9;
+      z-index: 100 !important;
+    }
+  }
+
+  .vis-item.vis-box,
+  .vis-item.vis-range {
+    border: none !important;
+  }
+
+  .tl-item-label {
+    display:       block;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+    max-width:     200px;
+    font-size:     0.6rem;
+    font-weight:   600;
+    letter-spacing: 0.04em;
+  }
+
+  // ── Selected event highlight ─────────────────────────────────
+  .tl-selected {
+    z-index: 50 !important;
+  }
+
+  // ── Alert pulse animation ────────────────────────────────────
+  .tl-alert-pulse {
+    animation: tl-pulse 2.2s ease-in-out infinite !important;
+  }
+
+  @keyframes tl-pulse {
+    0%   { opacity: 1;    }
+    50%  { opacity: 0.55; }
+    100% { opacity: 1;    }
+  }
+
+  // ── "Now" vertical indicator ─────────────────────────────────
+  .vis-current-time {
+    background-color: var(--accent-bright) !important;
+    width:            1.5px !important;
+    opacity:          0.8;
+    animation:        tl-now-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes tl-now-pulse {
+    0%, 100% { opacity: 0.8;  }
+    50%      { opacity: 0.35; }
+  }
+
+  // ── Tooltip ──────────────────────────────────────────────────
+  .vis-tooltip {
+    background:  var(--bg-elevated) !important;
+    border:      1px solid var(--border-strong) !important;
+    color:       var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size:   0.6rem !important;
+    border-radius: 3px !important;
+    padding:     5px 8px !important;
+    max-width:   260px;
+    white-space: pre-line !important;
+    box-shadow:  0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  // ── Grid lines ───────────────────────────────────────────────
+  .vis-grid.vis-vertical {
+    border-color: rgba(0, 163, 199, 0.06) !important;
+  }
+
+  .vis-grid.vis-vertical.vis-major {
+    border-color: rgba(0, 163, 199, 0.13) !important;
+  }
+
+  // ── Misc ─────────────────────────────────────────────────────
+  .vis-shadow {
+    box-shadow: none !important;
+  }
+
+  .vis-item .vis-item-overflow {
+    overflow: visible !important;
+  }
+}

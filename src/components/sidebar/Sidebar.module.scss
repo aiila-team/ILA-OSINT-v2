@@ -1,0 +1,291 @@
+@use '../../styles/variables';
+
+// ── Sidebar Shell ─────────────────────────────────────────────────
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  transition: width var(--transition);
+  overflow: hidden;
+
+ &.collapsed {
+  width: var(--sidebar-collapsed);
+
+  .navLabel,
+  .sectionLabel,
+  .subItems,
+  .chevron,
+  .userMeta,
+  .userName { display: none; }
+
+  .brandLogo {
+    max-width: 55px;
+    max-height: 55px;
+    height: auto;
+  }
+  .navItem { justify-content: center; padding: 0 18px; }
+  .sectionHeader { justify-content: center; padding: 0 18px; }
+}
+}
+// ── Brand Logo ────────────────────────────────────────────────────
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  min-height: 90px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #020617;
+  padding: 12px 8px;
+}
+.brandLogo {
+  width: 95%;
+  max-width: 280px;
+  height: auto;
+  max-height: 75px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  transition: max-width var(--transition);
+}
+
+// ── Nav ───────────────────────────────────────────────────────────
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 163, 199, 0.15) transparent;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-thumb { background: rgba(0, 163, 199, 0.2); border-radius: 2px; }
+}
+
+// ── Section ───────────────────────────────────────────────────────
+.section { margin-bottom: 2px; }
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 18px;
+  cursor: pointer;
+  gap: 10px;
+  transition: background var(--transition);
+  border-left: 2px solid transparent;
+
+  &:hover {
+    background: var(--bg-hover);
+    .sectionIcon { color: var(--accent); }
+    .sectionLabel { color: var(--text-primary); }
+  }
+
+  &.sectionActive {
+    border-left-color: var(--accent);
+    background: var(--bg-active);
+    .sectionIcon { color: var(--accent); }
+    .sectionLabel { color: var(--text-primary); }
+  }
+}
+
+.sectionLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sectionIcon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform var(--transition), color var(--transition);
+  font-size: 10px;
+  line-height: 1;
+
+  &.chevronOpen {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+}
+
+// ── Sub items accordion ───────────────────────────────────────────
+.subItems {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &.subItemsOpen { max-height: 400px; }
+}
+
+.subItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 18px 8px 40px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+
+  &:hover {
+    background: var(--bg-hover);
+    .subIcon { color: var(--accent); }
+    .subLabel { color: var(--text-primary); }
+  }
+
+  &.subItemActive {
+    border-left-color: var(--accent);
+    background: var(--bg-active);
+    .subIcon { color: var(--accent); }
+    .subLabel { color: var(--accent); }
+  }
+}
+
+.subIcon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.subLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+// ── Standalone nav item ───────────────────────────────────────────
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+
+  &:hover {
+    background: var(--bg-hover);
+    .navIcon { color: var(--accent); }
+    .navLabel { color: var(--text-primary); }
+  }
+
+  &.navItemActive {
+    border-left-color: var(--accent);
+    background: var(--bg-active);
+    .navIcon { color: var(--accent); }
+    .navLabel { color: var(--accent); }
+  }
+}
+
+.navIcon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.navLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+// ── Divider ───────────────────────────────────────────────────────
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 18px;
+}
+
+// ── User panel ────────────────────────────────────────────────────
+.userPanel {
+  border-top: 1px solid var(--border);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.userAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.userInfo { flex: 1; min-width: 0; }
+
+.userName {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userMeta {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: color var(--transition);
+
+  &:hover { color: var(--status-danger); }
+}

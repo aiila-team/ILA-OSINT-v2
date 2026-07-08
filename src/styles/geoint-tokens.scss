@@ -1,0 +1,60 @@
+// src/styles/geoint-tokens.scss
+// ILA OSINT — GeoIntel Map Design Tokens
+// Extends variables.scss. Import in main.tsx after variables.scss.
+
+:root {
+  // ── Map canvas ────────────────────────────────────────────────
+  --map-bg:              #020817;
+  --map-border:          #0e2a45;
+
+  // ── Panel surfaces ────────────────────────────────────────────
+  --panel-bg:            rgba(2, 8, 23, 0.94);
+  --panel-bg-solid:      #060d1c;
+  --panel-border:        rgba(0, 163, 199, 0.18);
+  --panel-border-strong: rgba(0, 163, 199, 0.32);
+  --panel-hover:         rgba(0, 163, 199, 0.06);
+  --panel-active:        rgba(0, 163, 199, 0.12);
+
+  // ── ADS-B / Aircraft ─────────────────────────────────────────
+  --adsb-commercial:     #00c3ef;
+  --adsb-military:       #fa4d56;
+  --adsb-private:        #f1c21b;
+  --adsb-trail:          rgba(0, 195, 239, 0.45);
+  --adsb-active:         #4589ff;
+
+  // ── AIS / Maritime ───────────────────────────────────────────
+  --ais-cargo:           #24a148;
+  --ais-tanker:          #f1c21b;
+  --ais-military:        #fa4d56;
+  --ais-trail:           rgba(36, 161, 72, 0.4);
+
+  // ── Social Intelligence ───────────────────────────────────────
+  --social-low:          rgba(241, 194, 27, 0.3);
+  --social-high:         rgba(250, 77, 86, 0.7);
+
+  // ── GPS Anomaly ───────────────────────────────────────────────
+  --gps-anomaly:         rgba(138, 63, 252, 0.5);
+  --gps-spoof:           #8a3ffc;
+
+  // ── Alert severity ────────────────────────────────────────────
+  --alert-critical:      #fa4d56;
+  --alert-critical-glow: rgba(250, 77, 86, 0.25);
+  --alert-high:          #ff8389;
+  --alert-high-glow:     rgba(255, 131, 137, 0.2);
+  --alert-medium:        #f1c21b;
+  --alert-medium-glow:   rgba(241, 194, 27, 0.18);
+  --alert-low:           #4589ff;
+  --alert-low-glow:      rgba(69, 137, 255, 0.15);
+
+  // ── Timeline ─────────────────────────────────────────────────
+  --timeline-bg:         rgba(2, 8, 23, 0.96);
+  --timeline-bar:        rgba(0, 163, 199, 0.14);
+  --timeline-active:     #00c3ef;
+  --timeline-height:     192px;
+  --timeline-collapsed:  36px;
+
+  // ── Layer panel ───────────────────────────────────────────────
+  --layer-panel-width:   220px;
+  --detail-panel-width:  300px;
+  --toolbar-height:      44px;
+}

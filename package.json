@@ -1,0 +1,53 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.11.8",
+    "@carbon/icons-react": "^11.82.0",
+    "@carbon/react": "^1.109.0",
+    "@carbon/styles": "^1.108.0",
+    "@tanstack/react-query": "^5.101.0",
+    "@types/d3": "^7.4.3",
+    "@types/react-datepicker": "^6.2.0",
+    "axios": "^1.17.0",
+    "d3": "^7.9.0",
+    "framer-motion": "^12.40.0",
+    "graphql": "^16.9.0",
+    "graphql-ws": "^5.16.2",
+    "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
+    "react": "^19.2.6",
+    "react-datepicker": "^9.1.0",
+    "react-dom": "^19.2.6",
+    "react-is": "^19.2.7",
+    "react-leaflet": "^5.0.0",
+    "recharts": "^3.8.1",
+    "vis-data": "^8.0.4",
+    "vis-timeline": "^8.5.1",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/leaflet": "^1.9.21",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "sass": "^1.100.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  }
+}

@@ -1,0 +1,68 @@
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono);
+  color: #10B981;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+}
+
+.clock {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #94A3B8;
+}
+
+.metrics {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 80px;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}

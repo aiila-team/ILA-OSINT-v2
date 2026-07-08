@@ -1,0 +1,232 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #020617;
+}
+
+/* Force Carbon dark theme across ALL components */
+body {
+  background-color: #020617;
+}
+
+/* Carbon dark theme token overrides */
+:root,
+.cds--white,
+.cds--g10,
+.cds--g90,
+.cds--g100 {
+  --cds-background:                 #0a1628 !important;
+  --cds-background-hover:           rgba(0,163,199,0.06) !important;
+  --cds-background-active:          rgba(0,163,199,0.1) !important;
+  --cds-layer-01:                   #0a1628 !important;
+  --cds-layer-02:                   #0d1f35 !important;
+  --cds-layer-03:                   #122340 !important;
+  --cds-layer-hover-01:             rgba(0,163,199,0.06) !important;
+  --cds-layer-hover-02:             rgba(0,163,199,0.08) !important;
+  --cds-layer-selected-01:          rgba(0,163,199,0.1) !important;
+  --cds-layer-selected-hover-01:    rgba(0,163,199,0.14) !important;
+  --cds-field-01:                   rgba(255,255,255,0.04) !important;
+  --cds-field-02:                   rgba(255,255,255,0.06) !important;
+  --cds-field-hover-01:             rgba(255,255,255,0.07) !important;
+  --cds-border-subtle-00:           rgba(255,255,255,0.07) !important;
+  --cds-border-subtle-01:           rgba(255,255,255,0.07) !important;
+  --cds-border-subtle-02:           rgba(255,255,255,0.07) !important;
+  --cds-border-strong-01:           rgba(255,255,255,0.15) !important;
+  --cds-border-strong-02:           rgba(255,255,255,0.15) !important;
+  --cds-text-primary:               rgba(255,255,255,0.85) !important;
+  --cds-text-secondary:             rgba(255,255,255,0.55) !important;
+  --cds-text-placeholder:           rgba(255,255,255,0.25) !important;
+  --cds-text-disabled:              rgba(255,255,255,0.25) !important;
+  --cds-text-on-color:              #ffffff !important;
+  --cds-icon-primary:               rgba(255,255,255,0.85) !important;
+  --cds-icon-secondary:             rgba(255,255,255,0.55) !important;
+  --cds-interactive:                #00a3c7 !important;
+  --cds-focus:                      #00a3c7 !important;
+  --cds-link-primary:               #00a3c7 !important;
+  --cds-link-primary-hover:         #00c3ef !important;
+  --cds-button-primary:             #00a3c7 !important;
+  --cds-button-primary-hover:       #0093b5 !important;
+  --cds-button-primary-active:      #007a9a !important;
+  --cds-overlay:                    rgba(2,6,23,0.75) !important;
+  --cds-toggle-off:                 rgba(255,255,255,0.2) !important;
+  --cds-support-error:              #fa4d56 !important;
+  --cds-support-success:            #24a148 !important;
+  --cds-support-warning:            #f1c21b !important;
+  --cds-support-info:               #4589ff !important;
+}
+
+/* Carbon table — force dark */
+.cds--data-table-container,
+.cds--data-table,
+.cds--data-table td,
+.cds--table-toolbar,
+.cds--toolbar-content {
+  background-color: transparent !important;
+  color: rgba(255,255,255,0.82) !important;
+}
+
+.cds--data-table th {
+  background-color: #0a1628 !important;
+  color: rgba(255,255,255,0.82) !important;
+}
+
+.cds--data-table thead tr,
+.cds--data-table thead tr th,
+.cds--data-table thead,
+.cds--data-table .cds--table-header-label,
+.cds--data-table th,
+.cds--table-sort {
+  background: #0a1628 !important;
+  background-color: #0a1628 !important;
+}
+.cds--data-table tbody tr {
+  background: transparent !important;
+}
+
+.cds--data-table tbody tr:hover td {
+  background: rgba(0,163,199,0.05) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.cds--data-table th {
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+.cds--data-table td {
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+/* Carbon modal dark */
+.cds--modal-container {
+  background: #0a1628 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.cds--modal-header {
+  background: #0a1628 !important;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+.cds--modal-header__heading {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.cds--modal-footer {
+  background: #0a1628 !important;
+  border-top: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+/* Carbon dropdown dark */
+.cds--dropdown,
+.cds--dropdown-list,
+.cds--list-box,
+.cds--list-box__menu {
+  background: #0a1628 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.82) !important;
+}
+
+.cds--list-box__menu-item:hover {
+  background: rgba(0,163,199,0.08) !important;
+}
+
+.cds--list-box__menu-item--active {
+  background: rgba(0,163,199,0.12) !important;
+}
+
+/* Carbon text input dark */
+.cds--text-input,
+.cds--text-area {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+
+/* Carbon checkbox */
+.cds--checkbox-label::before {
+  border-color: rgba(255,255,255,0.3) !important;
+  background: transparent !important;
+}
+
+.cds--checkbox:checked + .cds--checkbox-label::before {
+  background: #00a3c7 !important;
+  border-color: #00a3c7 !important;
+}
+
+/* Carbon tag overrides */
+.cds--tag {
+  font-size: 9px !important;
+}
+
+/* Scrollbar global */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Carbon table row selection fix ── */
+.cds--data-table .cds--table-column-checkbox,
+.cds--data-table .cds--table-column-checkbox .cds--checkbox-label {
+  background: transparent !important;
+}
+
+.cds--data-table tbody tr.cds--data-table--selected td {
+  background: rgba(0, 163, 199, 0.06) !important;
+  border-left: 2px solid #00a3c7 !important;
+}
+
+/* Fix Carbon's skeleton/loading ghost blocks in table cells */
+.cds--data-table td.cds--table-column-checkbox {
+  width: 36px !important;
+  background: transparent !important;
+}
+
+/* Ensure Carbon doesn't apply white/gray layer to table rows */
+.cds--data-table tbody .cds--data-table-row--selected,
+.cds--data-table tbody .cds--data-table-row--selected td {
+  background: rgba(0, 163, 199, 0.06) !important;
+}
+
+/* Remove Carbon's default table toolbar height which pushes content */
+.cds--table-toolbar {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Fix Carbon table header sort button background bleed */
+.cds--table-sort {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.cds--table-sort:hover {
+  background: rgba(0, 163, 199, 0.05) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ── Nuclear fix for Carbon gray table header ── */
+.cds--data-table-container { background: transparent !important; }
+.cds--data-table th { background-color: rgba(0,0,0,0.35) !important; }
+.cds--data-table td { background-color: transparent !important; }
+.cds--data-table tbody tr { background-color: transparent !important; }
+.cds--table-sort { background-color: transparent !important; }
+.cds--table-sort:hover { background-color: rgba(0,163,199,0.05) !important; }
+
+/* Fix empty row checkboxes showing as standalone boxes */
+.cds--data-table tbody tr td:only-child {
+  background: transparent !important;
+}
+
+/* ── Kill Carbon's gray table header completely ── */
+.cds--data-table-container { background: transparent !important; }
+.cds--data-table th { background-color: #0a1628 !important; border-bottom: 1px solid rgba(255,255,255,0.07) !important; }
+.cds--data-table td { background-color: transparent !important; }
+.cds--data-table tbody tr { background-color: transparent !important; }
+.cds--table-sort { background-color: #0a1628 !important; color: rgba(255,255,255,0.3) !important; }
+.cds--table-sort:hover { background-color: rgba(0,163,199,0.05) !important; color: rgba(255,255,255,0.7) !important; }
+.cds--table-sort__flex { color: rgba(255,255,255,0.3) !important; }

@@ -1,0 +1,369 @@
+// src/presentation/pages/analyst/GraphAnalysisPage.module.scss
+// ILA OSINT — Graph Analysis Page Styles
+
+// ─────────────────────────────────────────────────────────────────
+// Page layout
+// ─────────────────────────────────────────────────────────────────
+
+.pageLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Header stats (passed as actions to shell)
+// ─────────────────────────────────────────────────────────────────
+
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.statChip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.statSelected {
+  color: var(--accent-bright);
+  border-color: var(--accent-dim);
+  background: var(--accent-faint);
+}
+
+.statusChip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  color: var(--text-primary);
+  background: rgba(0, 163, 199, 0.08);
+  border-color: rgba(0, 163, 199, 0.18);
+}
+
+.errorChip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  color: var(--status-danger);
+  background: rgba(250, 77, 86, 0.08);
+  border-color: rgba(250, 77, 86, 0.18);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Toolbar
+// ─────────────────────────────────────────────────────────────────
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-sidebar);
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.toolbarCenter {
+  flex: 1;
+  max-width: 360px;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+// ── Layout switcher ────────────────────────────────────────────
+
+.layoutSwitcher {
+  :global(.cds--content-switcher) {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  :global(.cds--content-switcher-btn) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.07em !important;
+    color: var(--text-muted) !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    padding: 0 0.75rem !important;
+    height: 28px !important;
+    min-width: unset !important;
+
+    &:hover {
+      color: var(--text-primary) !important;
+      background: var(--bg-hover) !important;
+    }
+  }
+
+  :global(.cds--content-switcher--selected) {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-color: var(--accent) !important;
+  }
+}
+
+// ── Search ─────────────────────────────────────────────────────
+
+.toolbarSearch {
+  :global(.cds--search-input) {
+    background: var(--bg-elevated) !important;
+    border-bottom-color: var(--border-strong) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.75rem !important;
+    height: 32px !important;
+
+    &::placeholder {
+      color: var(--text-muted) !important;
+      font-size: 0.72rem !important;
+    }
+
+    &:focus {
+      border-bottom-color: var(--accent) !important;
+    }
+  }
+
+  :global(.cds--search-magnifier) {
+    fill: var(--accent) !important;
+  }
+}
+
+// ── Tool buttons ───────────────────────────────────────────────
+
+.toolBtn {
+  height: 32px !important;
+  width: 32px !important;
+  min-height: unset !important;
+
+  :global(.cds--btn--ghost) {
+    color: var(--text-muted) !important;
+
+    &:hover {
+      background: var(--bg-hover) !important;
+      color: var(--text-primary) !important;
+    }
+  }
+}
+
+// ── Cluster toggle ─────────────────────────────────────────────
+
+.clusterToggle {
+  display: flex;
+  align-items: center;
+
+  :global(.cds--toggle__label) {
+    font-family: var(--font-mono) !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.07em !important;
+    color: var(--text-muted) !important;
+  }
+
+  :global(.cds--toggle__switch) {
+    &::before {
+      background: var(--border-strong) !important;
+    }
+  }
+
+  :global(.cds--toggle__input:checked ~ .cds--toggle__label .cds--toggle__switch::before) {
+    background: var(--accent) !important;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Filter bar
+// ─────────────────────────────────────────────────────────────────
+
+.filterBar {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-base);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.filterBarInner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+}
+
+.filterLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  margin-right: 0.2rem;
+}
+
+.filterTag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.07em !important;
+  cursor: pointer !important;
+  transition: all var(--transition) !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+
+  &:hover {
+    border-color: var(--accent-dim) !important;
+    color: var(--accent) !important;
+  }
+}
+
+.filterTagActive {
+  background: var(--accent-faint) !important;
+  border-color: var(--accent-dim) !important;
+  color: var(--accent-bright) !important;
+}
+
+.clearFilter {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.07em;
+  transition: color var(--transition), border-color var(--transition);
+
+  svg { fill: currentColor; }
+
+  &:hover {
+    color: var(--status-danger);
+    border-color: var(--status-danger);
+  }
+}
+
+.filterSpacer {
+  width: 1px;
+  height: 16px;
+  background: var(--border-strong);
+  margin: 0 0.35rem;
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Main area
+// ─────────────────────────────────────────────────────────────────
+
+.mainArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.canvasArea {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  transition: flex var(--transition);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Detail panel (inline right)
+// ─────────────────────────────────────────────────────────────────
+
+.detailPanel {
+  flex-shrink: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--border-strong);
+  background: var(--bg-sidebar);
+  height: 100%;
+}
+
+.detailInner {
+  width: 380px;
+  height: 100%;
+  overflow: hidden;
+
+  // The EntityDrawer in inline mode fills this container
+  > * {
+    height: 100%;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Legend bar
+// ─────────────────────────────────────────────────────────────────
+
+.legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.35rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-base);
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.legendRing {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  flex-shrink: 0;
+}
+
+.legendDivider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-strong);
+  margin: 0 0.25rem;
+  flex-shrink: 0;
+}
