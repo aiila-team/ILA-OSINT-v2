@@ -1,35 +1,60 @@
 // src/components/geoint/HeatmapLayer/HeatmapLayer.tsx
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
-import * as L from 'leaflet';
-import 'leaflet.heat/dist/leaflet-heat.js';
+import L from 'leaflet';
+import 'leaflet.heat';
 import useLiveMock from '../../../hooks/useLiveMock';
+
+type HeatLayerInstance = {
+  addTo: (map: L.Map) => HeatLayerInstance;
+  remove: () => void;
+};
+
+type HeatLayerFactory = (latlngs: Array<[number, number, number]>, options?: Record<string, unknown>) => HeatLayerInstance;
+
+type LeafletWithHeat = typeof L & {
+  heatLayer?: HeatLayerFactory;
+  HeatLayer?: new (
+    latlngs: Array<[number, number, number]>,
+    options?: Record<string, unknown>
+  ) => HeatLayerInstance;
+};
 
 const HeatmapLayer: React.FC = () => {
   const map = useMap();
   const { riskZones } = useLiveMock();
 
   useEffect(() => {
-  console.log("Leaflet:", L);
-  console.log("heatLayer:", (L as any).heatLayer);
+    const leafletWithHeat = L as LeafletWithHeat;
+    const points = riskZones.map((p) => [p.lat, p.lng, p.intensity / 100] as [number, number, number]);
 
-  const points = riskZones.map((p) => [p.lat, p.lng, p.intensity / 100]);
+    if (typeof leafletWithHeat.heatLayer === 'function') {
+      const heat = leafletWithHeat.heatLayer(points, {
+        radius: 25,
+        blur: 20,
+        maxZoom: 10,
+      });
 
-  if (!(L as any).heatLayer) {
-    console.error("Heat plugin not loaded!");
-    return;
-  }
+      heat.addTo(map);
+      return () => heat.remove();
+    }
 
-  const heat = (L as any).heatLayer(points, {
-    radius: 25,
-    blur: 20,
-    maxZoom: 10,
-  });
+    if (typeof leafletWithHeat.HeatLayer === 'function') {
+      const HeatLayerCtor = leafletWithHeat.HeatLayer;
+      const heat = new HeatLayerCtor(points, {
+        radius: 25,
+        blur: 20,
+        maxZoom: 10,
+      });
 
-  heat.addTo(map as any);
+      heat.addTo(map);
+      return () => heat.remove();
+    }
 
-  return () => heat.remove();
-}, [map, riskZones]);
+    console.error('Leaflet heat plugin failed to initialize.');
+    return undefined;
+  }, [map, riskZones]);
+
   return null;
 };
 
