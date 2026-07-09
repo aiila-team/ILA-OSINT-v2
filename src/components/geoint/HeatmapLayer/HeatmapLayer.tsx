@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import * as L from 'leaflet';
-import 'leaflet.heat';
+import 'leaflet.heat/dist/leaflet-heat.js';
 import useLiveMock from '../../../hooks/useLiveMock';
 
 const HeatmapLayer: React.FC = () => {
