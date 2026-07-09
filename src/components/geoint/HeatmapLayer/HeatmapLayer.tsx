@@ -10,12 +10,26 @@ const HeatmapLayer: React.FC = () => {
   const { riskZones } = useLiveMock();
 
   useEffect(() => {
-    const points = riskZones.map((p) => [p.lat, p.lng, p.intensity / 100]);
-    const heat = (L as any).heatLayer(points, { radius: 25, blur: 20, maxZoom: 10 });
-    heat.addTo(map as any);
-    return () => { heat.remove(); };
-  }, [map, riskZones]);
+  console.log("Leaflet:", L);
+  console.log("heatLayer:", (L as any).heatLayer);
 
+  const points = riskZones.map((p) => [p.lat, p.lng, p.intensity / 100]);
+
+  if (!(L as any).heatLayer) {
+    console.error("Heat plugin not loaded!");
+    return;
+  }
+
+  const heat = (L as any).heatLayer(points, {
+    radius: 25,
+    blur: 20,
+    maxZoom: 10,
+  });
+
+  heat.addTo(map as any);
+
+  return () => heat.remove();
+}, [map, riskZones]);
   return null;
 };
 
